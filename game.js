@@ -812,14 +812,14 @@ function draw() {
     gameScreen();
 
     //make the characters move
-    for (let character of characters) {
-      character.GrandpaY += speed;
+    for (let i = 0; i < characters.length; i++) {
+      characters[i].GrandpaY += speed;
+      characters[i].draw();
     }
     //make the character come again and again
-    if (character.GrandpaY > height) {
-      character.GrandpaY = 0;
+    if (this.GrandpaY > 750) {
+      this.GrandpaY = 0;
     }
-    character.draw();
 
     player(300, 550, 0.8);
   }
