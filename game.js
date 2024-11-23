@@ -1,4 +1,7 @@
 let state = "start";
+//for the array for the characters (all ppl are in characters) moving down
+let characters = [];
+let speed = 2;
 
 //chatGPT
 let stars = [];
@@ -20,6 +23,11 @@ function setup() {
     };
     stars.push(star);
   }
+
+  //create instance(objects)
+  characters.push(new Grandpa(400, 100, 0.8));
+  characters.push(new Biker(200, 50, 0.8));
+  characters.push(new Bunny(300, 200, 0.8));
 }
 
 //Uni Rush start screen
@@ -92,7 +100,7 @@ function startScreen(x, y) {
 }
 
 function gameScreen() {
-  background(255, 0, 0);
+  background(255, 255, 250);
 }
 
 function player(x, y, s) {
@@ -220,48 +228,6 @@ function player(x, y, s) {
 
   fill(106, 39, 27);
   rect(x - 5 * s, y + 50 * s, 10 * s, 15 * s, 2 * s);
-}
-
-function bunny(bunnyX, bunnyY) {
-  //legs lef/right
-  fill(196, 195, 194);
-  rect(bunnyX - 15, bunnyY + 20, 8, 15, 20);
-  rect(bunnyX + 7, bunnyY + 20, 8, 15, 20);
-
-  //body
-  fill(215, 213, 210);
-  ellipse(bunnyX, bunnyY, 40, 60);
-
-  //head
-  fill(196, 195, 194);
-  ellipse(bunnyX, bunnyY - 20, 30, 40);
-
-  //nose
-  fill(0, 0, 0);
-  ellipse(bunnyX, bunnyY - 40, 5);
-
-  //eyes left/right
-  fill(255, 255, 255);
-  ellipse(bunnyX - 5, bunnyY - 23, 10, 15);
-  fill(0, 0, 0);
-  ellipse(bunnyX - 5, bunnyY - 25, 5, 8);
-
-  fill(255, 255, 255);
-  ellipse(bunnyX + 5, bunnyY - 23, 10, 15);
-  fill(0, 0, 0);
-  ellipse(bunnyX + 5, bunnyY - 25, 5, 8);
-
-  //tail
-  fill(255, 255, 255);
-  ellipse(bunnyX, bunnyY + 28, 10);
-
-  //ears left/right
-  fill(196, 195, 194);
-  ellipse(bunnyX - 10, bunnyY, 10, 30);
-  ellipse(bunnyX + 10, bunnyY, 10, 30);
-  fill(238, 198, 228);
-  ellipse(bunnyX - 10, bunnyY, 5, 25);
-  ellipse(bunnyX + 10, bunnyY, 5, 25);
 }
 
 class Grandpa {
@@ -710,9 +676,127 @@ class Biker extends Grandpa {
   }
 }
 
+class Bunny extends Grandpa {
+  constructor(GrandpaX, GrandpaY, GrandpaS) {
+    super(GrandpaX, GrandpaY, GrandpaS);
+  }
+  draw() {
+    // legs left/right
+    fill(196, 195, 194);
+    rect(
+      this.GrandpaX - 15 * this.GrandpaS,
+      this.GrandpaY + 20 * this.GrandpaS,
+      8 * this.GrandpaS,
+      15 * this.GrandpaS,
+      20 * this.GrandpaS
+    );
+    rect(
+      this.GrandpaX + 7 * this.GrandpaS,
+      this.GrandpaY + 20 * this.GrandpaS,
+      8 * this.GrandpaS,
+      15 * this.GrandpaS,
+      20 * this.GrandpaS
+    );
+
+    // body
+    fill(215, 213, 210);
+    ellipse(
+      this.GrandpaX,
+      this.GrandpaY,
+      40 * this.GrandpaS,
+      60 * this.GrandpaS
+    );
+
+    // head
+    fill(196, 195, 194);
+    ellipse(
+      this.GrandpaX,
+      this.GrandpaY - 20 * this.GrandpaS,
+      30 * this.GrandpaS,
+      40 * this.GrandpaS
+    );
+
+    // nose
+    fill(0, 0, 0);
+    ellipse(
+      this.GrandpaX,
+      this.GrandpaY - 40 * this.GrandpaS,
+      5 * this.GrandpaS
+    );
+
+    // eyes left/right
+    fill(255, 255, 255);
+    ellipse(
+      this.GrandpaX - 5 * this.GrandpaS,
+      this.GrandpaY - 23 * this.GrandpaS,
+      10 * this.GrandpaS,
+      15 * this.GrandpaS
+    );
+    fill(0, 0, 0);
+    ellipse(
+      this.GrandpaX - 5 * this.GrandpaS,
+      this.GrandpaY - 25 * this.GrandpaS,
+      5 * this.GrandpaS,
+      8 * this.GrandpaS
+    );
+
+    fill(255, 255, 255);
+    ellipse(
+      this.GrandpaX + 5 * this.GrandpaS,
+      this.GrandpaY - 23 * this.GrandpaS,
+      10 * this.GrandpaS,
+      15 * this.GrandpaS
+    );
+    fill(0, 0, 0);
+    ellipse(
+      this.GrandpaX + 5 * this.GrandpaS,
+      this.GrandpaY - 25 * this.GrandpaS,
+      5 * this.GrandpaS,
+      8 * this.GrandpaS
+    );
+
+    // tail
+    fill(255, 255, 255);
+    ellipse(
+      this.GrandpaX,
+      this.GrandpaY + 28 * this.GrandpaS,
+      10 * this.GrandpaS
+    );
+
+    // ears left/right
+    fill(196, 195, 194);
+    ellipse(
+      this.GrandpaX - 10 * this.GrandpaS,
+      this.GrandpaY,
+      10 * this.GrandpaS,
+      30 * this.GrandpaS
+    );
+    ellipse(
+      this.GrandpaX + 10 * this.GrandpaS,
+      this.GrandpaY,
+      10 * this.GrandpaS,
+      30 * this.GrandpaS
+    );
+    fill(238, 198, 228);
+    ellipse(
+      this.GrandpaX - 10 * this.GrandpaS,
+      this.GrandpaY,
+      5 * this.GrandpaS,
+      25 * this.GrandpaS
+    );
+    ellipse(
+      this.GrandpaX + 10 * this.GrandpaS,
+      this.GrandpaY,
+      5 * this.GrandpaS,
+      25 * this.GrandpaS
+    );
+  }
+}
+
 //calling the functions
 let biker = new Biker(200, 200, 0.8);
 let grandpa = new Grandpa(400, 300, 0.8);
+let bunny = new Bunny(300, 100, 1);
 
 function draw() {
   if (state === "start") {
@@ -726,10 +810,18 @@ function draw() {
     }
   } else if (state === "game") {
     gameScreen();
+
+    //make the characters move
+    for (let character of characters) {
+      character.GrandpaY += speed;
+    }
+    //make the character come again and again
+    if (character.GrandpaY > height) {
+      character.GrandpaY = 0;
+    }
+    character.draw();
+
     player(300, 550, 0.8);
-    bunny(300, 100);
-    biker.draw();
-    grandpa.draw();
   }
 }
 
