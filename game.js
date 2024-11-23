@@ -493,7 +493,7 @@ class Biker extends Grandpa {
       this.GrandpaX + 15 * this.GrandpaS,
       this.GrandpaY + 35 * this.GrandpaS
     );
-    bezierVertex(
+    bezierVertex( 
       this.GrandpaX + 10 * this.GrandpaS,
       this.GrandpaY + 30 * this.GrandpaS,
       this.GrandpaX + 10 * this.GrandpaS,
