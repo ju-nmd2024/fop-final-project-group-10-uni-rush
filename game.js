@@ -5,10 +5,10 @@ let speed = 2;
 
 //chatGPT
 let stars = [];
-const regionX = 350; 
+const regionX = 350;
 const regionY = 200;
 const regionWidth = 150;
-const regionHeight = 200; 
+const regionHeight = 200;
 
 //function for the canvas and the stars to have them in the rect
 function setup() {
@@ -100,33 +100,33 @@ function startScreen(x, y) {
 }
 
 function gameScreen() {
-    // street lane
-    fill(165, 185, 175);
-    rect(150, 0, 300, height);
-  
-    stroke(0);
-    strokeWeight(0.8);
-    line(250, 0, 250, height);
-    line(350, 0, 350, height);
-    
-    //grass 
-    noStroke();
-    fill(10, 130, 15);
-    rect(0, 0, 150, height);
-  
-    tree(60, 100, 1);
-    tree(90, 300, 1);
-    tree(30, 450, 1);
-    tree(80, 640, 1);
-  
-    bush(50, 200, 0.5);
-    bush(90, 550, 0.5);
-  
-    //sand
-    fill(180, 190, 50);
-    rect(450, 0, 100, height);
+  // street lane
+  fill(165, 185, 175);
+  rect(150, 0, 300, 700);
 
-    rock(470, 100);
+  stroke(0);
+  strokeWeight(0.8);
+  line(250, 0, 250, 700);
+  line(350, 0, 350, 700);
+
+  //grass
+  noStroke();
+  fill(10, 130, 15);
+  rect(0, 0, 150, 700);
+
+  tree(60, 100, 1);
+  tree(90, 300, 1);
+  tree(30, 450, 1);
+  tree(80, 640, 1);
+
+  bush(50, 200, 0.5);
+  bush(90, 550, 0.5);
+
+  //sand
+  fill(180, 190, 50);
+  rect(450, 0, 100, 700);
+
+  rock(470, 100);
   rock(490, 200);
   rock(475, 400);
   rock(500, 550);
@@ -135,21 +135,20 @@ function gameScreen() {
   bush(490, 250, 0.2);
   bush(470, 450, 0.2);
   bush(475, 580, 0.2);
-  
-    //lake
-    fill(20, 140, 160, 100);
-    rect(515, 0, 100, height);
-  
-    fill(20, 140, 160, 110);
-    rect(530, 0, 20, height); 
-  
+
+  //lake
+  fill(20, 140, 160, 100);
+  rect(515, 0, 100, 700);
+
+  fill(20, 140, 160, 110);
+  rect(530, 0, 20, 700);
 }
- 
+
 let jthX = 300;
 let jthY = 500;
 let jthS = 1;
 
-let treeX = 80; 
+let treeX = 80;
 let treeY = 300;
 let treeS = 1;
 let rockX = 490;
@@ -204,7 +203,7 @@ function bush(treeX, treeY, treeS) {
   ellipse(treeX + 35 * treeS, treeY + 20 * treeS, 30 * treeS);
   ellipse(treeX + 20 * treeS, treeY + 30 * treeS, 25 * treeS);
   ellipse(treeX + 25 * treeS, treeY - 25 * treeS, 30 * treeS);
-} 
+}
 
 function player(x, y, s) {
   noStroke();
@@ -562,7 +561,7 @@ class Biker extends Grandpa {
       this.GrandpaX + 15 * this.GrandpaS,
       this.GrandpaY + 35 * this.GrandpaS
     );
-    bezierVertex( 
+    bezierVertex(
       this.GrandpaX + 10 * this.GrandpaS,
       this.GrandpaY + 30 * this.GrandpaS,
       this.GrandpaX + 10 * this.GrandpaS,
@@ -896,9 +895,9 @@ class Bunny extends Grandpa {
   }
 }
 
-//calling the functions
+//calling the classes
 let biker = new Biker(200, 200, 0.8);
-let grandpa = new Grandpa(400, 300, 0.8); 
+let grandpa = new Grandpa(400, 300, 0.8);
 let bunny = new Bunny(300, 100, 1);
 
 function jthSchool(jthX, jthY, jthS) {
@@ -1148,7 +1147,6 @@ function resultFailed(jthX, jthY, jthS) {
   line(jthX - 200, jthY + 200, jthX, jthY + 50);
   line(jthX + 400, jthY + 300, jthX + 45, jthY + 50);
 
-  
   //bush
   noStroke();
   bush(270, 605, 0.2);
@@ -1176,13 +1174,17 @@ function draw() {
     gameScreen();
 
     //make the characters move
-    for (let i = 0; i < characters.length; i++) {
-      characters[i].GrandpaY += speed;
-      characters[i].draw();
-    }
-    //make the character come again and again
-    if (this.GrandpaY > 750) {
-      this.GrandpaY = 0;
+    for (let character of characters) {
+      // Update position
+      character.GrandpaY += speed;
+
+      // Reset position if it goes beyond the canvas
+      if (character.GrandpaY > 720) {
+        character.GrandpaY = -50;
+      }
+
+      // Draw the character
+      character.draw();
     }
 
     player(300, 550, 0.8);
@@ -1190,7 +1192,7 @@ function draw() {
 } 
 
 function mouseClicked() {
-  if ( 
+  if (
     state === "start" &&
     mouseX >= 180 &&
     mouseX <= 319 &&
@@ -1200,7 +1202,7 @@ function mouseClicked() {
     state = "game";
   } else if (
     (state === "resultSuccess" &&
-      mouseX >= 200 && 
+      mouseX >= 200 &&
       mouseX <= 400 &&
       mouseY >= 280 &&
       mouseY <= 330) ||
