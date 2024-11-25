@@ -1069,7 +1069,7 @@ function cloud(jthX, jthY, jthS) {
   ellipse(jthX + 30 * jthS, jthY + 180 * jthS, 35 * jthS);
   ellipse(jthX - 50 * jthS, jthY + 195 * jthS, 30 * jthS);
   ellipse(jthX + 50 * jthS, jthY + 195 * jthS, 30 * jthS);
-}
+} 
 
 function playAgain(x, y) {
   noStroke();
@@ -1092,7 +1092,7 @@ function menu(x, y) {
   textSize(20);
   text("MENU", 265, 365);
 }
-
+ 
 function resultSuccess(jthX, jthY, jthS) {
   fill(70, 220, 220);
   rect(0, 0, 600, 700);
@@ -1160,7 +1160,7 @@ function resultFailed(jthX, jthY, jthS) {
 
   playAgain(200, 100);
   menu(230, 300);
-}
+} 
 
 function draw() {
   if (state === "start") {
@@ -1187,7 +1187,7 @@ function draw() {
 
     player(300, 550, 0.8);
   }
-}
+} 
 
 function mouseClicked() {
   if ( 
@@ -1213,3 +1213,4 @@ function mouseClicked() {
     state = "game";
   }
 }
+ 

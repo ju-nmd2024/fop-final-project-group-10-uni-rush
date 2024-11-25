@@ -2,34 +2,89 @@ function setup() {
   createCanvas(600, 700);
 }
 
-let treeX = 80;
-let treeY = 300;
-let treeS = 1;
+let rockX = 490;
+let rockY = 40;
 
-function tree(treeX, treeY) {
-  //tree
-  fill(130, 100, 15);
-  rect(treeX - 15, treeY + 20, 30, 40);
+class Tree {
+  constructor(treeX, treeY, treeS) {
+    this.treeX = treeX;
+    this.treeY = treeY;
+    this.treeS = treeS;
+  }
 
-  fill(60, 185, 15);
-  ellipse(treeX, treeY, 80);
+  draw() {
+    noStroke();
+    // tree trunk
+    fill(130, 100, 15);
+    rect(
+      this.treeX - 15 * this.treeS,
+      this.treeY + 20 * this.treeS,
+      30 * this.treeS,
+      40 * this.treeS
+    );
 
-  //left side leaves
-  ellipse(treeX - 40, treeY - 5, 30);
-  ellipse(treeX - 35, treeY + 20, 30);
-  ellipse(treeX - 20, treeY + 30, 25);
-  ellipse(treeX - 25, treeY - 25, 30);
+    // main foliage
+    fill(60, 185, 15);
+    ellipse(this.treeX, this.treeY, 80 * this.treeS);
 
-  //middle leaves
-  ellipse(treeX, treeY - 35, 30, 25);
-  ellipse(treeX, treeY + 32, 25);
+    // left side leaves
+    ellipse(
+      this.treeX - 40 * this.treeS,
+      this.treeY - 5 * this.treeS,
+      30 * this.treeS
+    );
+    ellipse(
+      this.treeX - 35 * this.treeS,
+      this.treeY + 20 * this.treeS,
+      30 * this.treeS
+    );
+    ellipse(
+      this.treeX - 20 * this.treeS,
+      this.treeY + 30 * this.treeS,
+      25 * this.treeS
+    );
+    ellipse(
+      this.treeX - 25 * this.treeS,
+      this.treeY - 25 * this.treeS,
+      30 * this.treeS
+    );
 
-  //right side leaves
-  ellipse(treeX + 40, treeY - 5, 30);
-  ellipse(treeX + 35, treeY + 20, 30);
-  ellipse(treeX + 20, treeY + 30, 25);
-  ellipse(treeX + 25, treeY - 25, 30);
+    // middle leaves
+    ellipse(
+      this.treeX,
+      this.treeY - 35 * this.treeS,
+      30 * this.treeS,
+      25 * this.treeS
+    );
+    ellipse(this.treeX, this.treeY + 32 * this.treeS, 25 * this.treeS);
+
+    // right side leaves
+    ellipse(
+      this.treeX + 40 * this.treeS,
+      this.treeY - 5 * this.treeS,
+      30 * this.treeS
+    );
+    ellipse(
+      this.treeX + 35 * this.treeS,
+      this.treeY + 20 * this.treeS,
+      30 * this.treeS
+    );
+    ellipse(
+      this.treeX + 20 * this.treeS,
+      this.treeY + 30 * this.treeS,
+      25 * this.treeS
+    );
+    ellipse(
+      this.treeX + 25 * this.treeS,
+      this.treeY - 25 * this.treeS,
+      30 * this.treeS
+    );
+  }
 }
+
+let tree1 = new Tree(90, 50, 1);
+let tree2 = new Tree(90, 350, 1);
+let tree3 = new Tree(70, 600, 1);
 
 function bush(treeX, treeY, treeS) {
   fill(55, 170, 15);
@@ -52,9 +107,6 @@ function bush(treeX, treeY, treeS) {
   ellipse(treeX + 25 * treeS, treeY - 25 * treeS, 30 * treeS);
 }
 
-let rockX = 490;
-let rockY = 40;
-
 function rock(rockX, rockY) {
   fill(95, 90, 90);
   ellipse(rockX, rockY, 10, 15);
@@ -63,29 +115,26 @@ function rock(rockX, rockY) {
 function draw() {
   // street lane
   fill(165, 185, 175);
-  rect(150, 0, 300, height);
+  rect(150, 0, 300, 700);
 
   stroke(0);
-  line(250, 0, 250, height);
-  line(350, 0, 350, height);
+  line(250, 0, 250, 700);
+  line(350, 0, 350, 700);
 
   //grass
   noStroke();
   fill(10, 130, 15);
-  rect(0, 0, 150, height);
+  rect(0, 0, 150, 700);
 
-  tree(60, 100);
-  tree(90, 300);
-  tree(30, 450);
-  tree(80, 640);
-
+  //MAKE BUSH A CLASS
   bush(50, 200, 0.5);
-  bush(90, 550, 0.5);
+  bush(90, 520, 0.5);
 
   //sand
   fill(180, 190, 50);
-  rect(450, 0, 100, height);
+  rect(450, 0, 100, 700);
 
+  //MAKE ROCK AND BUSH A CLASS
   rock(470, 100);
   rock(490, 200);
   rock(475, 400);
@@ -98,8 +147,14 @@ function draw() {
 
   //lake
   fill(20, 140, 160, 100);
-  rect(515, 0, 100, height);
+  rect(515, 0, 100, 700);
 
   fill(20, 140, 160, 110);
-  rect(530, 0, 20, height);
+  rect(530, 0, 20, 700);
+
+  tree1.draw();
+  tree2.draw();
+  tree3.draw();
 }
+
+//MAKE BUSH, ROCKS A CLASS
