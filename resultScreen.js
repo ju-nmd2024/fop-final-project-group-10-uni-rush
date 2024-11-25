@@ -7,7 +7,7 @@ let jthY = 500;
 let jthS = 1;
 
 let treeX = 80;
-let treeY = 300; 
+let treeY = 300;
 let treeS = 1;
 
 function tree(treeX, treeY, treeS) {
@@ -249,7 +249,7 @@ function menu(x, y) {
   text("MENU", 265, 365);
 }
 
-function win(jthX, jthY, jthS) {
+function resultSuccess(jthX, jthY, jthS) {
   fill(70, 220, 220);
   rect(0, 0, 600, 700);
 
@@ -272,11 +272,11 @@ function win(jthX, jthY, jthS) {
   fill(200, 200, 145);
   rect(0, 650, width, height);
 
-playAgain(200,100);
+  playAgain(200, 100);
   menu(230, 300);
 }
 
-function lose(jthX, jthY, jthS) {
+function resultFailed(jthX, jthY, jthS) {
   fill(145, 170, 170);
   rect(0, 0, 600, 700);
 
@@ -317,8 +317,7 @@ function lose(jthX, jthY, jthS) {
 }
 
 function draw() {
-  win(300, 550, 1);
+  resultSuccess(300, 550, 1);
 
-    lose(300, 550,0.5);
-   
+ /*  resultFailed(300, 550, 0.5); */
 }
