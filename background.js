@@ -1,9 +1,26 @@
 function setup() {
   createCanvas(600, 700);
-}
 
-let rockX = 490;
-let rockY = 40;
+  bushes = [
+    new Bush(50, 170, 0.5),
+    new Bush(95, 265, 0.5),
+    new Bush(50, 480, 0.5),
+    new Bush(110, 665, 0.5),
+    new Bush(500, 50, 0.2),
+    new Bush(480, 300, 0.2),
+    new Bush(470, 500, 0.2),
+    new Bush(480, 650, 0.2),
+  ];
+
+  trees = [new Tree(90, 50, 1), new Tree(90, 350, 1), new Tree(70, 580, 1)];
+
+  rocks = [
+    new Rock(480, 100, 0.5),
+    new Rock(490, 265, 0.5),
+    new Rock(460, 450, 0.5),
+    new Rock(490, 580, 0.5),
+  ];
+}
 
 class Tree {
   constructor(treeX, treeY, treeS) {
@@ -82,34 +99,83 @@ class Tree {
   }
 }
 
-let tree1 = new Tree(90, 50, 1);
-let tree2 = new Tree(90, 350, 1);
-let tree3 = new Tree(70, 600, 1);
+class Bush {
+  constructor(bushX, bushY, bushS) {
+    this.bushX = bushX;
+    this.bushY = bushY;
+    this.bushS = bushS;
+  }
 
-function bush(treeX, treeY, treeS) {
-  fill(55, 170, 15);
-  ellipse(treeX, treeY, 80 * treeS);
+  draw() {
+    // main foliage
+    fill(60, 185, 15);
+    ellipse(this.bushX, this.bushY, 80 * this.bushS);
 
-  //left side leaves
-  ellipse(treeX - 40 * treeS, treeY - 5 * treeS, 30 * treeS);
-  ellipse(treeX - 35 * treeS, treeY + 20 * treeS, 30 * treeS);
-  ellipse(treeX - 20 * treeS, treeY + 30 * treeS, 25 * treeS);
-  ellipse(treeX - 25 * treeS, treeY - 25 * treeS, 30 * treeS);
+    // left side leaves
+    ellipse(
+      this.bushX - 40 * this.bushS,
+      this.bushY - 5 * this.bushS,
+      30 * this.bushS
+    );
+    ellipse(
+      this.bushX - 35 * this.bushS,
+      this.bushY + 20 * this.bushS,
+      30 * this.bushS
+    );
+    ellipse(
+      this.bushX - 20 * this.bushS,
+      this.bushY + 30 * this.bushS,
+      25 * this.bushS
+    );
+    ellipse(
+      this.bushX - 25 * this.bushS,
+      this.bushY - 25 * this.bushS,
+      30 * this.bushS
+    );
 
-  //middle leaves
-  ellipse(treeX, treeY - 35 * treeS, 30 * treeS, 25 * treeS);
-  ellipse(treeX, treeY + 32 * treeS, 25 * treeS);
+    // middle leaves
+    ellipse(
+      this.bushX,
+      this.bushY - 35 * this.bushS,
+      30 * this.bushS,
+      25 * this.bushS
+    );
+    ellipse(this.bushX, this.bushY + 32 * this.bushS, 25 * this.bushS);
 
-  //right side leaves
-  ellipse(treeX + 40 * treeS, treeY - 5 * treeS, 30 * treeS);
-  ellipse(treeX + 35 * treeS, treeY + 20 * treeS, 30 * treeS);
-  ellipse(treeX + 20 * treeS, treeY + 30 * treeS, 25 * treeS);
-  ellipse(treeX + 25 * treeS, treeY - 25 * treeS, 30 * treeS);
+    // right side leaves
+    ellipse(
+      this.bushX + 40 * this.bushS,
+      this.bushY - 5 * this.bushS,
+      30 * this.bushS
+    );
+    ellipse(
+      this.bushX + 35 * this.bushS,
+      this.bushY + 20 * this.bushS,
+      30 * this.bushS
+    );
+    ellipse(
+      this.bushX + 20 * this.bushS,
+      this.bushY + 30 * this.bushS,
+      25 * this.bushS
+    );
+    ellipse(
+      this.bushX + 25 * this.bushS,
+      this.bushY - 25 * this.bushS,
+      30 * this.bushS
+    );
+  }
 }
 
-function rock(rockX, rockY) {
-  fill(95, 90, 90);
-  ellipse(rockX, rockY, 10, 15);
+class Rock {
+  constructor(rockX, rockY, rockS) {
+    this.rockX = rockX;
+    this.rockY = rockY;
+    this.rockS = rockS;
+  }
+  draw() {
+    fill(95, 90, 90);
+    ellipse(this.rockX, this.rockY, 10 * this.rockS, 15 * this.rockS);
+  }
 }
 
 function draw() {
@@ -126,24 +192,9 @@ function draw() {
   fill(10, 130, 15);
   rect(0, 0, 150, 700);
 
-  //MAKE BUSH A CLASS
-  bush(50, 200, 0.5);
-  bush(90, 520, 0.5);
-
   //sand
   fill(180, 190, 50);
   rect(450, 0, 100, 700);
-
-  //MAKE ROCK AND BUSH A CLASS
-  rock(470, 100);
-  rock(490, 200);
-  rock(475, 400);
-  rock(500, 550);
-
-  bush(480, 50, 0.2);
-  bush(490, 250, 0.2);
-  bush(470, 450, 0.2);
-  bush(475, 580, 0.2);
 
   //lake
   fill(20, 140, 160, 100);
@@ -152,9 +203,31 @@ function draw() {
   fill(20, 140, 160, 110);
   rect(530, 0, 20, 700);
 
-  tree1.draw();
-  tree2.draw();
-  tree3.draw();
-}
+  for (let bush of bushes) {
+    bush.draw();
+    bush.bushY += 1; // Move the bush down
 
-//MAKE BUSH, ROCKS A CLASS
+    // Reset bush position when it moves off the canvas
+    if (bush.bushY > 720) {
+      bush.bushY = -40; // Reset to just above the canvas
+    }
+  }
+
+  for (let tree of trees) {
+    tree.draw();
+    tree.treeY += 1;
+
+    if (tree.treeY > 720) {
+      tree.treeY = -40;
+    }
+  }
+
+  for (let rock of rocks) {
+    rock.draw();
+    rock.rockY += 1;
+
+    if (rock.rockY > 720) {
+      rock.rockY = -40;
+    }
+  }
+}

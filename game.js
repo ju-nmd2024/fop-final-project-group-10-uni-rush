@@ -28,6 +28,27 @@ function setup() {
   characters.push(new Grandpa(400, 100, 0.8));
   characters.push(new Biker(200, 50, 0.8));
   characters.push(new Bunny(300, 200, 0.8));
+
+  //bushes array
+  bushes = [
+    new Bush(50, 170, 0.5),
+    new Bush(95, 265, 0.5),
+    new Bush(50, 480, 0.5),
+    new Bush(110, 665, 0.5),
+    new Bush(500, 50, 0.2),
+    new Bush(480, 300, 0.2),
+    new Bush(470, 500, 0.2),
+    new Bush(480, 650, 0.2),
+  ];
+
+  trees = [new Tree(90, 50, 1), new Tree(90, 350, 1), new Tree(70, 580, 1)];
+
+  rocks = [
+    new Rock(480, 100, 0.5),
+    new Rock(490, 265, 0.5),
+    new Rock(460, 450, 0.5),
+    new Rock(490, 580, 0.5),
+  ];
 }
 
 //Uni Rush start screen
@@ -105,7 +126,7 @@ function gameScreen() {
   rect(150, 0, 300, 700);
 
   stroke(0);
-  strokeWeight(0.8);
+  strokeWeight(0.5);
   line(250, 0, 250, 700);
   line(350, 0, 350, 700);
 
@@ -114,27 +135,9 @@ function gameScreen() {
   fill(10, 130, 15);
   rect(0, 0, 150, 700);
 
-  tree(60, 100, 1);
-  tree(90, 300, 1);
-  tree(30, 450, 1);
-  tree(80, 640, 1);
-
-  bush(50, 200, 0.5);
-  bush(90, 550, 0.5);
-
   //sand
   fill(180, 190, 50);
   rect(450, 0, 100, 700);
-
-  rock(470, 100);
-  rock(490, 200);
-  rock(475, 400);
-  rock(500, 550);
-
-  bush(480, 50, 0.2);
-  bush(490, 250, 0.2);
-  bush(470, 450, 0.2);
-  bush(475, 580, 0.2);
 
   //lake
   fill(20, 140, 160, 100);
@@ -142,67 +145,34 @@ function gameScreen() {
 
   fill(20, 140, 160, 110);
   rect(530, 0, 20, 700);
-}
 
-let jthX = 300;
-let jthY = 500;
-let jthS = 1;
+  for (let bush of bushes) {
+    bush.draw();
+    bush.bushY += 1; // Move the bush down
 
-let treeX = 80;
-let treeY = 300;
-let treeS = 1;
-let rockX = 490;
-let rockY = 40;
+    // Reset bush position when it moves off the canvas
+    if (bush.bushY > 720) {
+      bush.bushY = -50; // Reset to just above the canvas
+    }
+  }
 
-function rock(rockX, rockY) {
-  fill(95, 90, 90);
-  ellipse(rockX, rockY, 10, 15);
-}
+  for (let tree of trees) {
+    tree.draw();
+    tree.treeY += 1;
 
-function tree(treeX, treeY, treeS) {
-  //tree
-  fill(130, 100, 15);
-  rect(treeX - 15 * treeS, treeY + 20 * treeS, 30 * treeS, 40 * treeS);
+    if (tree.treeY > 720) {
+      tree.treeY = -50;
+    }
+  }
 
-  fill(60, 185, 15);
-  ellipse(treeX, treeY, 80 * treeS);
+  for (let rock of rocks) {
+    rock.draw();
+    rock.rockY += 1;
 
-  //left side leaves
-  ellipse(treeX - 40 * treeS, treeY - 5 * treeS, 30 * treeS);
-  ellipse(treeX - 35 * treeS, treeY + 20 * treeS, 30 * treeS);
-  ellipse(treeX - 20 * treeS, treeY + 30 * treeS, 25 * treeS);
-  ellipse(treeX - 25 * treeS, treeY - 25 * treeS, 30 * treeS);
-
-  //middle leaves
-  ellipse(treeX, treeY - 35 * treeS, 30 * treeS, 25 * treeS);
-  ellipse(treeX, treeY + 32 * treeS, 25 * treeS);
-
-  //right side leaves
-  ellipse(treeX + 40 * treeS, treeY - 5 * treeS, 30 * treeS);
-  ellipse(treeX + 35 * treeS, treeY + 20 * treeS, 30 * treeS);
-  ellipse(treeX + 20 * treeS, treeY + 30 * treeS, 25 * treeS);
-  ellipse(treeX + 25 * treeS, treeY - 25 * treeS, 30 * treeS);
-}
-
-function bush(treeX, treeY, treeS) {
-  fill(55, 170, 15);
-  ellipse(treeX, treeY, 80 * treeS);
-
-  //left side leaves
-  ellipse(treeX - 40 * treeS, treeY - 5 * treeS, 30 * treeS);
-  ellipse(treeX - 35 * treeS, treeY + 20 * treeS, 30 * treeS);
-  ellipse(treeX - 20 * treeS, treeY + 30 * treeS, 25 * treeS);
-  ellipse(treeX - 25 * treeS, treeY - 25 * treeS, 30 * treeS);
-
-  //middle leaves
-  ellipse(treeX, treeY - 35 * treeS, 30 * treeS, 25 * treeS);
-  ellipse(treeX, treeY + 32 * treeS, 25 * treeS);
-
-  //right side leaves
-  ellipse(treeX + 40 * treeS, treeY - 5 * treeS, 30 * treeS);
-  ellipse(treeX + 35 * treeS, treeY + 20 * treeS, 30 * treeS);
-  ellipse(treeX + 20 * treeS, treeY + 30 * treeS, 25 * treeS);
-  ellipse(treeX + 25 * treeS, treeY - 25 * treeS, 30 * treeS);
+    if (rock.rockY > 720) {
+      rock.rockY = -50;
+    }
+  }
 }
 
 function player(x, y, s) {
@@ -330,6 +300,162 @@ function player(x, y, s) {
 
   fill(106, 39, 27);
   rect(x - 5 * s, y + 50 * s, 10 * s, 15 * s, 2 * s);
+}
+
+class Tree {
+  constructor(treeX, treeY, treeS) {
+    this.treeX = treeX;
+    this.treeY = treeY;
+    this.treeS = treeS;
+  }
+
+  draw() {
+    noStroke();
+    // tree trunk
+    fill(130, 100, 15);
+    rect(
+      this.treeX - 15 * this.treeS,
+      this.treeY + 20 * this.treeS,
+      30 * this.treeS,
+      40 * this.treeS
+    );
+
+    // main foliage
+    fill(60, 185, 15);
+    ellipse(this.treeX, this.treeY, 80 * this.treeS);
+
+    // left side leaves
+    ellipse(
+      this.treeX - 40 * this.treeS,
+      this.treeY - 5 * this.treeS,
+      30 * this.treeS
+    );
+    ellipse(
+      this.treeX - 35 * this.treeS,
+      this.treeY + 20 * this.treeS,
+      30 * this.treeS
+    );
+    ellipse(
+      this.treeX - 20 * this.treeS,
+      this.treeY + 30 * this.treeS,
+      25 * this.treeS
+    );
+    ellipse(
+      this.treeX - 25 * this.treeS,
+      this.treeY - 25 * this.treeS,
+      30 * this.treeS
+    );
+
+    // middle leaves
+    ellipse(
+      this.treeX,
+      this.treeY - 35 * this.treeS,
+      30 * this.treeS,
+      25 * this.treeS
+    );
+    ellipse(this.treeX, this.treeY + 32 * this.treeS, 25 * this.treeS);
+
+    // right side leaves
+    ellipse(
+      this.treeX + 40 * this.treeS,
+      this.treeY - 5 * this.treeS,
+      30 * this.treeS
+    );
+    ellipse(
+      this.treeX + 35 * this.treeS,
+      this.treeY + 20 * this.treeS,
+      30 * this.treeS
+    );
+    ellipse(
+      this.treeX + 20 * this.treeS,
+      this.treeY + 30 * this.treeS,
+      25 * this.treeS
+    );
+    ellipse(
+      this.treeX + 25 * this.treeS,
+      this.treeY - 25 * this.treeS,
+      30 * this.treeS
+    );
+  }
+}
+
+class Bush {
+  constructor(bushX, bushY, bushS) {
+    this.bushX = bushX;
+    this.bushY = bushY;
+    this.bushS = bushS;
+  }
+
+  draw() {
+    // main foliage
+    fill(60, 185, 15);
+    ellipse(this.bushX, this.bushY, 80 * this.bushS);
+
+    // left side leaves
+    ellipse(
+      this.bushX - 40 * this.bushS,
+      this.bushY - 5 * this.bushS,
+      30 * this.bushS
+    );
+    ellipse(
+      this.bushX - 35 * this.bushS,
+      this.bushY + 20 * this.bushS,
+      30 * this.bushS
+    );
+    ellipse(
+      this.bushX - 20 * this.bushS,
+      this.bushY + 30 * this.bushS,
+      25 * this.bushS
+    );
+    ellipse(
+      this.bushX - 25 * this.bushS,
+      this.bushY - 25 * this.bushS,
+      30 * this.bushS
+    );
+
+    // middle leaves
+    ellipse(
+      this.bushX,
+      this.bushY - 35 * this.bushS,
+      30 * this.bushS,
+      25 * this.bushS
+    );
+    ellipse(this.bushX, this.bushY + 32 * this.bushS, 25 * this.bushS);
+
+    // right side leaves
+    ellipse(
+      this.bushX + 40 * this.bushS,
+      this.bushY - 5 * this.bushS,
+      30 * this.bushS
+    );
+    ellipse(
+      this.bushX + 35 * this.bushS,
+      this.bushY + 20 * this.bushS,
+      30 * this.bushS
+    );
+    ellipse(
+      this.bushX + 20 * this.bushS,
+      this.bushY + 30 * this.bushS,
+      25 * this.bushS
+    );
+    ellipse(
+      this.bushX + 25 * this.bushS,
+      this.bushY - 25 * this.bushS,
+      30 * this.bushS
+    );
+  }
+}
+
+class Rock {
+  constructor(rockX, rockY, rockS) {
+    this.rockX = rockX;
+    this.rockY = rockY;
+    this.rockS = rockS;
+  }
+  draw() {
+    fill(95, 90, 90);
+    ellipse(this.rockX, this.rockY, 10 * this.rockS, 15 * this.rockS);
+  }
 }
 
 class Grandpa {
@@ -1068,7 +1194,7 @@ function cloud(jthX, jthY, jthS) {
   ellipse(jthX + 30 * jthS, jthY + 180 * jthS, 35 * jthS);
   ellipse(jthX - 50 * jthS, jthY + 195 * jthS, 30 * jthS);
   ellipse(jthX + 50 * jthS, jthY + 195 * jthS, 30 * jthS);
-} 
+}
 
 function playAgain(x, y) {
   noStroke();
@@ -1091,7 +1217,7 @@ function menu(x, y) {
   textSize(20);
   text("MENU", 265, 365);
 }
- 
+
 function resultSuccess(jthX, jthY, jthS) {
   fill(70, 220, 220);
   rect(0, 0, 600, 700);
@@ -1114,6 +1240,8 @@ function resultSuccess(jthX, jthY, jthS) {
   //floor
   fill(200, 200, 145);
   rect(0, 650, width, height);
+
+  player(300, 600, 1);
 
   playAgain(200, 100);
   menu(230, 300);
@@ -1153,12 +1281,14 @@ function resultFailed(jthX, jthY, jthS) {
   bush(375, 605, 0.2);
 
   //tree
-  tree(240, 610, 0.4);
+  tree(235, 610, 0.4);
   tree(410, 610, 0.4);
+
+  player(320, 600, 0.4);
 
   playAgain(200, 100);
   menu(230, 300);
-} 
+}
 
 function draw() {
   if (state === "start") {
@@ -1189,7 +1319,7 @@ function draw() {
 
     player(300, 550, 0.8);
   }
-} 
+}
 
 function mouseClicked() {
   if (
@@ -1215,4 +1345,3 @@ function mouseClicked() {
     state = "game";
   }
 }
- 
