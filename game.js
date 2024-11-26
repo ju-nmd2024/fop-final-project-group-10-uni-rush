@@ -5,6 +5,7 @@ let speed = 2;
 //player moves left and right in the lanes
 let lanes = [200, 300, 400];
 let currentLane = 1;
+let appearingInterval = 10000;
 
 
 //chatGPT
@@ -17,6 +18,9 @@ const regionHeight = 200;
 //function for the canvas and the stars to have them in the rect
 function setup() {
   createCanvas(600, 700);
+
+//chatgpt for interval
+  setInterval(appearingCharacter, appearingInterval);
 
   //stars
   for (let i = 0; i < 100; i++) {
@@ -1111,7 +1115,7 @@ class Bunny extends Grandpa {
 }
 
 //calling the classes
-let biker = new Biker(200, 200, 0.8);
+let biker = new Biker(200, 100, 0.8);
 let grandpa = new Grandpa(400, 300, 0.8);
 let bunny = new Bunny(300, 100, 1);
 
@@ -1379,6 +1383,27 @@ function resultFailed(jthX, jthY, jthS) {
   menu(230, 300);
 }
 
+function appearingCharacter() {
+  // Randomly select a lane (200, 300, or 400)
+  let lane = random(lanes);
+  
+  // Randomly choose a character type (e.g., Grandpa, Biker, or Bunny)
+  let randomCharacter = random(['Grandpa', 'Biker', 'Bunny']);
+  
+  // Define a random position (offscreen, top of the canvas)
+  let appearingX = lane;
+  let appearingY = -50; // Start above the screen
+  
+  // Create the new character based on the random choice
+  if (randomCharacter === 'Grandpa') {
+    characters.push(new Grandpa(appearingX, appearingY, 0.8));
+  } else if (randomCharacter === 'Biker') {
+    characters.push(new Biker(appearingX, appearingY, 0.8));
+  } else if (randomCharacter === 'Bunny') {
+    characters.push(new Bunny(appearingX, appearingY, 0.8));
+  } 
+}
+
 function draw() {
   if (state === "start") {
     startScreen(100, 100);
@@ -1442,3 +1467,5 @@ function keyPressed() {
     currentLane++;
   }
 }
+
+
