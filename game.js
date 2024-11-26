@@ -2,6 +2,10 @@ let state = "start";
 //for the array for the characters (all ppl are in characters) moving down
 let characters = [];
 let speed = 2;
+//player moves left and right in the lanes
+let lanes = [200, 300, 400];
+let currentLane = 1;
+
 
 //chatGPT
 let stars = [];
@@ -175,132 +179,217 @@ function gameScreen() {
   }
 }
 
-function player(x, y, s) {
-  noStroke();
+class Player {
+  constructor(x, y, s) {
+    this.x = lanes[currentLane];
+    this.y = y;
+    this.s = s;
+  }
 
-  //ears
-  fill(189, 158, 122);
-  ellipse(x - 23 * s, y, 15 * s);
-  ellipse(x + 23 * s, y, 15 * s);
+  update() {
+    this.x = lanes[currentLane];   
+  }
+  draw() {
+    noStroke();
 
-  //throught
-  beginShape();
-  vertex(x - 10 * s, y + 20 * s);
-  bezierVertex(
-    x - 10 * s,
-    y + 25 * s,
-    x - 10 * s,
-    y + 30 * s,
-    x - 15 * s,
-    y + 35 * s
-  );
-  vertex(x + 15 * s, y + 35 * s);
-  bezierVertex(
-    x + 10 * s,
-    y + 30 * s,
-    x + 10 * s,
-    y + 25 * s,
-    x + 10 * s,
-    y + 20 * s
-  );
-  endShape(CLOSE);
+    // Ears
+    fill(189, 158, 122);
+    ellipse(this.x - 23 * this.s, this.y, 15 * this.s);
+    ellipse(this.x + 23 * this.s, this.y, 15 * this.s);
 
-  //Head hair
-  fill(95, 75, 53);
-  ellipse(x, y, 50 * s);
+    // Throat
+    beginShape();
+    vertex(this.x - 10 * this.s, this.y + 20 * this.s);
+    bezierVertex(
+      this.x - 10 * this.s,
+      this.y + 25 * this.s,
+      this.x - 10 * this.s,
+      this.y + 30 * this.s,
+      this.x - 15 * this.s,
+      this.y + 35 * this.s
+    );
+    vertex(this.x + 15 * this.s, this.y + 35 * this.s);
+    bezierVertex(
+      this.x + 10 * this.s,
+      this.y + 30 * this.s,
+      this.x + 10 * this.s,
+      this.y + 25 * this.s,
+      this.x + 10 * this.s,
+      this.y + 20 * this.s
+    );
+    endShape(CLOSE);
 
-  //arm left
-  fill(189, 158, 122);
-  beginShape();
-  vertex(x - 28 * s, y + 36 * s);
-  vertex(x - 50 * s, y + 50 * s);
-  bezierVertex(
-    x - 55 * s,
-    y + 55 * s,
-    x - 55 * s,
-    y + 60 * s,
-    x - 47 * s,
-    y + 70 * s
-  );
-  vertex(x - 30 * s, y + 85 * s);
-  vertex(x - 30 * s, y + 73 * s);
-  vertex(x - 40 * s, y + 60 * s);
-  vertex(x - 30 * s, y + 53 * s);
-  endShape();
+    // Head Hair
+    fill(95, 75, 53);
+    ellipse(this.x, this.y, 50 * this.s);
 
-  //arm right
-  beginShape();
-  vertex(x + 28 * s, y + 36 * s);
-  vertex(x + 50 * s, y + 50 * s);
-  bezierVertex(
-    x + 55 * s,
-    y + 55 * s,
-    x + 55 * s,
-    y + 60 * s,
-    x + 47 * s,
-    y + 70 * s
-  );
-  vertex(x + 30 * s, y + 85 * s);
-  vertex(x + 30 * s, y + 73 * s);
-  vertex(x + 40 * s, y + 60 * s);
-  vertex(x + 30 * s, y + 53 * s);
-  endShape();
+    // Arm Left
+    fill(189, 158, 122);
+    beginShape();
+    vertex(this.x - 28 * this.s, this.y + 36 * this.s);
+    vertex(this.x - 50 * this.s, this.y + 50 * this.s);
+    bezierVertex(
+      this.x - 55 * this.s,
+      this.y + 55 * this.s,
+      this.x - 55 * this.s,
+      this.y + 60 * this.s,
+      this.x - 47 * this.s,
+      this.y + 70 * this.s
+    );
+    vertex(this.x - 30 * this.s, this.y + 85 * this.s);
+    vertex(this.x - 30 * this.s, this.y + 73 * this.s);
+    vertex(this.x - 40 * this.s, this.y + 60 * this.s);
+    vertex(this.x - 30 * this.s, this.y + 53 * this.s);
+    endShape();
 
-  //body
-  fill(225, 211, 87);
-  rect(x - 32.5 * s, y + 35 * s, 65 * s, 70 * s, 10 * s);
+    // Arm Right
+    beginShape();
+    vertex(this.x + 28 * this.s, this.y + 36 * this.s);
+    vertex(this.x + 50 * this.s, this.y + 50 * this.s);
+    bezierVertex(
+      this.x + 55 * this.s,
+      this.y + 55 * this.s,
+      this.x + 55 * this.s,
+      this.y + 60 * this.s,
+      this.x + 47 * this.s,
+      this.y + 70 * this.s
+    );
+    vertex(this.x + 30 * this.s, this.y + 85 * this.s);
+    vertex(this.x + 30 * this.s, this.y + 73 * this.s);
+    vertex(this.x + 40 * this.s, this.y + 60 * this.s);
+    vertex(this.x + 30 * this.s, this.y + 53 * this.s);
+    endShape();
 
-  //Tail
-  fill(75, 57, 38);
-  beginShape();
-  vertex(x, y);
-  bezierVertex(
-    x + 10 * s,
-    y + 5 * s,
-    x + 20 * s,
-    y + 10 * s,
-    x + 25 * s,
-    y + 25 * s
-  );
-  vertex(x + 25 * s, y + 10 * s);
-  bezierVertex(x + 25 * s, y, x + 20 * s, y - 5 * s, x + 10 * s, y - 5 * s);
-  endShape();
+    // Body
+    fill(225, 211, 87);
+    rect(
+      this.x - 32.5 * this.s,
+      this.y + 35 * this.s,
+      65 * this.s,
+      70 * this.s,
+      10 * this.s
+    );
 
-  ellipse(x + 4, y - 4, 10);
+    // Tail
+    fill(75, 57, 38);
+    beginShape();
+    vertex(this.x, this.y);
+    bezierVertex(
+      this.x + 10 * this.s,
+      this.y + 5 * this.s,
+      this.x + 20 * this.s,
+      this.y + 10 * this.s,
+      this.x + 25 * this.s,
+      this.y + 25 * this.s
+    );
+    vertex(this.x + 25 * this.s, this.y + 10 * this.s);
+    bezierVertex(
+      this.x + 25 * this.s,
+      this.y,
+      this.x + 20 * this.s,
+      this.y - 5 * this.s,
+      this.x + 10 * this.s,
+      this.y - 5 * this.s
+    );
+    endShape();
 
-  //leg pants left/right
-  fill(225, 211, 87);
-  rect(x - 30 * s, y + 90 * s, 20 * s, 40 * s, 20 * s);
-  rect(x + 10 * s, y + 90 * s, 20 * s, 40 * s, 20 * s);
+    ellipse(this.x + 4, this.y - 4, 10);
 
-  //leg right
-  fill(189, 158, 122);
-  rect(x + 13 * s, y + 125 * s, 14 * s, 20 * s);
+    // Leg Pants Left/Right
+    fill(225, 211, 87);
+    rect(
+      this.x - 30 * this.s,
+      this.y + 90 * this.s,
+      20 * this.s,
+      40 * this.s,
+      20 * this.s
+    );
+    rect(
+      this.x + 10 * this.s,
+      this.y + 90 * this.s,
+      20 * this.s,
+      40 * this.s,
+      20 * this.s
+    );
 
-  //shoes left/right
-  fill(183, 61, 39);
-  rect(x - 30 * s, y + 120 * s, 20 * s, 25 * s, 20 * s);
-  rect(x + 10 * s, y + 143 * s, 20 * s, 10 * s, 10 * s);
+    // Leg Right
+    fill(189, 158, 122);
+    rect(this.x + 13 * this.s, this.y + 125 * this.s, 14 * this.s, 20 * this.s);
 
-  //backpack stripes left/right
-  stroke(106, 39, 27);
-  line(x - 17 * s, y + 40 * s, x - 20 * s, y + 36 * s);
-  line(x - 23 * s, y + 75 * s, x - 32 * s, y + 70 * s);
+    // Shoes Left/Right
+    fill(183, 61, 39);
+    rect(
+      this.x - 30 * this.s,
+      this.y + 120 * this.s,
+      20 * this.s,
+      25 * this.s,
+      20 * this.s
+    );
+    rect(
+      this.x + 10 * this.s,
+      this.y + 143 * this.s,
+      20 * this.s,
+      10 * this.s,
+      10 * this.s
+    );
 
-  line(x + 17 * s, y + 40 * s, x + 20 * s, y + 36 * s);
-  line(x + 23 * s, y + 75 * s, x + 32 * s, y + 70 * s);
+    // Backpack Stripes Left/Right
+    stroke(106, 39, 27);
+    line(
+      this.x - 17 * this.s,
+      this.y + 40 * this.s,
+      this.x - 20 * this.s,
+      this.y + 36 * this.s
+    );
+    line(
+      this.x - 23 * this.s,
+      this.y + 75 * this.s,
+      this.x - 32 * this.s,
+      this.y + 70 * this.s
+    );
+    line(
+      this.x + 17 * this.s,
+      this.y + 40 * this.s,
+      this.x + 20 * this.s,
+      this.y + 36 * this.s
+    );
+    line(
+      this.x + 23 * this.s,
+      this.y + 75 * this.s,
+      this.x + 32 * this.s,
+      this.y + 70 * this.s
+    );
 
-  //backpack
-  noStroke();
-  fill(183, 61, 39);
-  rect(x - 23 * s, y + 40 * s, 46 * s, 50 * s, 5 * s);
-
-  fill(150, 51, 33);
-  rect(x - 23 * s, y + 40 * s, 46 * s, 20 * s, 5 * s);
-
-  fill(106, 39, 27);
-  rect(x - 5 * s, y + 50 * s, 10 * s, 15 * s, 2 * s);
+    // Backpack
+    noStroke();
+    fill(183, 61, 39);
+    rect(
+      this.x - 23 * this.s,
+      this.y + 40 * this.s,
+      46 * this.s,
+      50 * this.s,
+      5 * this.s
+    );
+    fill(150, 51, 33);
+    rect(
+      this.x - 23 * this.s,
+      this.y + 40 * this.s,
+      46 * this.s,
+      20 * this.s,
+      5 * this.s
+    );
+    fill(106, 39, 27);
+    rect(
+      this.x - 5 * this.s,
+      this.y + 50 * this.s,
+      10 * this.s,
+      15 * this.s,
+      2 * this.s
+    );
+  }
 }
+
+let player = new Player (300, 550, 0.8);
 
 class Tree {
   constructor(treeX, treeY, treeS) {
@@ -1317,8 +1406,8 @@ function draw() {
       character.draw();
     }
 
-    player(300, 550, 0.8);
-  }
+    player.update(); 
+    player.draw();   }
 }
 
 function mouseClicked() {
@@ -1343,5 +1432,13 @@ function mouseClicked() {
       mouseY <= 330)
   ) {
     state = "game";
+  }
+}
+
+function keyPressed() {
+  if (keyCode === LEFT_ARROW && currentLane > 0) {
+    currentLane--; 
+  } else if (keyCode === RIGHT_ARROW && currentLane < lanes.length - 1) {
+    currentLane++;
   }
 }
