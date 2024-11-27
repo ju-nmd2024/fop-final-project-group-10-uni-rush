@@ -7,7 +7,7 @@ let lanes = [200, 300, 400];
 let currentLane = 1;
 let appearingInterval = 2500;
 
-//chatGPT
+// with the help of chatGPT
 let stars = [];
 const regionX = 350;
 const regionY = 200;
@@ -393,6 +393,7 @@ class Player {
 }
 
 let player = new Player(300, 550, 0.8);
+let jumpPlayer = new Player(300, 550, 1);
 
 class Tree {
   constructor(treeX, treeY, treeS) {
@@ -1434,7 +1435,10 @@ function detectCollisions() {
   for (let character of characters) {
     if (checkCollision(player, character)) {
       //console.log("Collision detected!");
-      resultFailed(300, 500, 1);
+      //resultFailed(300, 500, 1);
+      textSize(60);
+      fill(255, 0, 0);
+      text("OH NO", 200, 200);
     }
   }
 }
@@ -1464,6 +1468,7 @@ function draw() {
     detectCollisions();
     player.update();
     player.draw();
+    //heart();
   }
 }
 
