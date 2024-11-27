@@ -128,6 +128,7 @@ function startScreen(x, y) {
 }
 
 function gameScreen() {
+
   // street lane
   fill(165, 185, 175);
   rect(150, 0, 300, 700);
@@ -152,6 +153,7 @@ function gameScreen() {
 
   fill(20, 140, 160, 110);
   rect(530, 0, 20, 700);
+  
 
   for (let bush of bushes) {
     bush.draw();
@@ -179,7 +181,10 @@ function gameScreen() {
     if (rock.rockY > 720) {
       rock.rockY = -50;
     }
-  }
+  } 
+   
+  drawHeartThree(450, 50, 0.3);
+
 }
 
 class Player {
@@ -1114,6 +1119,64 @@ class Bunny extends Grandpa {
   }
 }
 
+let s = 1;
+
+function heart(x, y, size) {
+  // Top left curve
+  beginShape();
+  vertex(x, y);
+  bezierVertex(x - size / 2, y - size / 2, x - size, y + size / 8, x, y + size);
+
+  // Top right curve
+  bezierVertex(x + size, y + size / 8, x + size / 2, y - size / 2, x, y);
+
+  endShape(CLOSE);
+}
+
+function drawHeartThree(x, y, s) {
+  fill(255, 255, 255, 180);
+  noStroke();
+  rect(x - 80 * s, y - 55 * s, 420 * s, 190 * s, 30 * s);
+
+  fill(255, 0, 0);
+  stroke(0);
+  strokeWeight(3 * s);
+
+  heart(x, y, 100 * s);
+  heart(x + 130 * s, y, 100 * s);
+  heart(x + 260 * s, y, 100 * s);
+}
+
+function drawHeartTwo(x, y, s) {
+  fill(255, 255, 255, 180);
+  noStroke();
+  rect(x - 80 * s, y - 55 * s, 420 * s, 190 * s, 30 * s);
+
+  fill(255, 0, 0);
+  stroke(0);
+  strokeWeight(3 * s);
+
+  heart(x, y, 100 * s);
+  heart(x + 130 * s, y, 100 * s);
+  fill(100);
+  heart(x + 260 * s, y, 100 * s);
+}
+
+function drawHeartOne(x, y, s) {
+  fill(255, 255, 255, 180);
+  noStroke();
+  rect(x - 80 * s, y - 55 * s, 420 * s, 190 * s, 30 * s);
+
+  fill(255, 0, 0);
+  stroke(0);
+  strokeWeight(3 * s);
+
+  heart(x, y, 100 * s);
+  fill(100);
+  heart(x + 130 * s, y, 100 * s);
+  heart(x + 260 * s, y, 100 * s);
+}
+
 function jthSchool(jthX, jthY, jthS) {
   //JTH
   //building
@@ -1414,9 +1477,9 @@ function checkCollision(player, character) {
   // Box of Characters + Bunny
   let charWidth = 30 * character.GrandpaS;
   let charHeight =
-    character instanceof Bunny
-      ? 50 * character.GrandpaS
+    character instanceof Bunny ? 50 * character.GrandpaS
       : 170 * character.GrandpaS;
+
   let charLeft = character.GrandpaX - charWidth / 2;
   let charRight = character.GrandpaX + charWidth / 2;
   let charTop = character.GrandpaY;
@@ -1436,9 +1499,10 @@ function detectCollisions() {
     if (checkCollision(player, character)) {
       //console.log("Collision detected!");
       //resultFailed(300, 500, 1);
-      textSize(60);
+      /* textSize(60);
       fill(255, 0, 0);
-      text("OH NO", 200, 200);
+      text("OH NO", 200, 200);  */
+      drawHeartTwo(450, 50, 0.3);
     }
   }
 }
