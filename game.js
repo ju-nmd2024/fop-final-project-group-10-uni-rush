@@ -1,12 +1,11 @@
 let state = "start";
 //for the array for the characters (all ppl are in characters) moving down
 let characters = [];
-let speed = 2;
+let speed = 7;
 //player moves left and right in the lanes
 let lanes = [200, 300, 400];
 let currentLane = 1;
-let appearingInterval = 10000;
-
+let appearingInterval = 2700;
 
 //chatGPT
 let stars = [];
@@ -19,7 +18,7 @@ const regionHeight = 200;
 function setup() {
   createCanvas(600, 700);
 
-//chatgpt for interval
+  //chatgpt for time interval in which the player come down
   setInterval(appearingCharacter, appearingInterval);
 
   //stars
@@ -191,7 +190,7 @@ class Player {
   }
 
   update() {
-    this.x = lanes[currentLane];   
+    this.x = lanes[currentLane];
   }
   draw() {
     noStroke();
@@ -393,7 +392,7 @@ class Player {
   }
 }
 
-let player = new Player (300, 550, 0.8);
+let player = new Player(300, 550, 0.8);
 
 class Tree {
   constructor(treeX, treeY, treeS) {
@@ -1386,22 +1385,23 @@ function resultFailed(jthX, jthY, jthS) {
 function appearingCharacter() {
   // Randomly select a lane (200, 300, or 400)
   let lane = random(lanes);
-  
+
   // Randomly choose a character type (e.g., Grandpa, Biker, or Bunny)
-  let randomCharacter = random(['Grandpa', 'Biker', 'Bunny']);
-  
+  let randomCharacter = random(["Grandpa", "Biker", "Bunny"]);
+
   // Define a random position (offscreen, top of the canvas)
   let appearingX = lane;
-  let appearingY = -50; // Start above the screen
-  
+  // Start above the screen
+  let appearingY = -50;
+
   // Create the new character based on the random choice
-  if (randomCharacter === 'Grandpa') {
+  if (randomCharacter === "Grandpa") {
     characters.push(new Grandpa(appearingX, appearingY, 0.8));
-  } else if (randomCharacter === 'Biker') {
+  } else if (randomCharacter === "Biker") {
     characters.push(new Biker(appearingX, appearingY, 0.8));
-  } else if (randomCharacter === 'Bunny') {
+  } else if (randomCharacter === "Bunny") {
     characters.push(new Bunny(appearingX, appearingY, 0.8));
-  } 
+  }
 }
 
 function draw() {
@@ -1423,16 +1423,17 @@ function draw() {
       character.GrandpaY += speed;
 
       // Reset position if it goes beyond the canvas
-      if (character.GrandpaY > 720) {
-        character.GrandpaY = -50;
-      }
+      // if (character.GrandpaY > 720) {
+      //   character.GrandpaY = -50;
+      // }
 
       // Draw the character
       character.draw();
     }
 
-    player.update(); 
-    player.draw();   }
+    player.update();
+    player.draw();
+  }
 }
 
 function mouseClicked() {
@@ -1462,10 +1463,8 @@ function mouseClicked() {
 
 function keyPressed() {
   if (keyCode === LEFT_ARROW && currentLane > 0) {
-    currentLane--; 
+    currentLane--;
   } else if (keyCode === RIGHT_ARROW && currentLane < lanes.length - 1) {
     currentLane++;
   }
 }
-
-
