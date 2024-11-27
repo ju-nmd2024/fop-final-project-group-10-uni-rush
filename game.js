@@ -5,7 +5,7 @@ let speed = 7;
 //player moves left and right in the lanes
 let lanes = [200, 300, 400];
 let currentLane = 1;
-let appearingInterval = 2700;
+let appearingInterval = 2500;
 
 //chatGPT
 let stars = [];
@@ -31,10 +31,10 @@ function setup() {
     stars.push(star);
   }
 
-  // //create instance(objects)
-  // characters.push(new Grandpa(400, 50, 0.8));
-  // characters.push(new Biker(200, 500, 0.8));
-  // characters.push(new Bunny(300, 200, 0.8));
+  //create instance(objects)
+  characters.push(new Grandpa(400, 50, 0.8));
+  characters.push(new Biker(200, 500, 0.8));
+  characters.push(new Bunny(300, 200, 0.8));
 
   //bushes array
   bushes = [
@@ -1113,11 +1113,6 @@ class Bunny extends Grandpa {
   }
 }
 
-// //calling the classes
-// let biker = new Biker(200, 100, 0.8);
-// let grandpa = new Grandpa(400, 300, 0.8);
-// let bunny = new Bunny(300, 100, 1);
-
 function jthSchool(jthX, jthY, jthS) {
   //JTH
   //building
@@ -1405,6 +1400,45 @@ function appearingCharacter() {
   }
 }
 
+function checkCollision(player, character) {
+  // Box of Player
+  let playerWidth = 30 * player.s;
+  let playerHeight = 150 * player.s;
+  let playerLeft = player.x - playerWidth / 2;
+  let playerRight = player.x + playerWidth / 2;
+  let playerTop = player.y;
+  let playerBottom = player.y + playerHeight;
+
+  //with the help of ChatGpt
+  // Box of Characters + Bunny
+  let charWidth = 30 * character.GrandpaS;
+  let charHeight =
+    character instanceof Bunny
+      ? 50 * character.GrandpaS
+      : 170 * character.GrandpaS;
+  let charLeft = character.GrandpaX - charWidth / 2;
+  let charRight = character.GrandpaX + charWidth / 2;
+  let charTop = character.GrandpaY;
+  let charBottom = character.GrandpaY + charHeight;
+
+  // Check if the hitboxes overlap
+  return (
+    playerLeft < charRight &&
+    playerRight > charLeft &&
+    playerTop < charBottom &&
+    playerBottom > charTop
+  );
+}
+
+function detectCollisions() {
+  for (let character of characters) {
+    if (checkCollision(player, character)) {
+      //console.log("Collision detected!");
+      resultFailed(300, 500, 1);
+    }
+  }
+}
+
 function draw() {
   if (state === "start") {
     startScreen(100, 100);
@@ -1426,6 +1460,8 @@ function draw() {
       // Draw the character
       character.draw();
     }
+
+    detectCollisions();
     player.update();
     player.draw();
   }
