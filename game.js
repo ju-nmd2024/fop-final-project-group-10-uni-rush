@@ -31,10 +31,10 @@ function setup() {
     stars.push(star);
   }
 
-  //create instance(objects)
-  characters.push(new Grandpa(400, 100, 0.8));
-  characters.push(new Biker(200, 50, 0.8));
-  characters.push(new Bunny(300, 200, 0.8));
+  // //create instance(objects)
+  // characters.push(new Grandpa(400, 50, 0.8));
+  // characters.push(new Biker(200, 500, 0.8));
+  // characters.push(new Bunny(300, 200, 0.8));
 
   //bushes array
   bushes = [
@@ -155,7 +155,7 @@ function gameScreen() {
 
   for (let bush of bushes) {
     bush.draw();
-    bush.bushY += 1; // Move the bush down
+    bush.bushY += speed; // Move the bush down
 
     // Reset bush position when it moves off the canvas
     if (bush.bushY > 720) {
@@ -165,7 +165,7 @@ function gameScreen() {
 
   for (let tree of trees) {
     tree.draw();
-    tree.treeY += 1;
+    tree.treeY += speed;
 
     if (tree.treeY > 720) {
       tree.treeY = -50;
@@ -174,7 +174,7 @@ function gameScreen() {
 
   for (let rock of rocks) {
     rock.draw();
-    rock.rockY += 1;
+    rock.rockY += speed;
 
     if (rock.rockY > 720) {
       rock.rockY = -50;
@@ -1113,10 +1113,10 @@ class Bunny extends Grandpa {
   }
 }
 
-//calling the classes
-let biker = new Biker(200, 100, 0.8);
-let grandpa = new Grandpa(400, 300, 0.8);
-let bunny = new Bunny(300, 100, 1);
+// //calling the classes
+// let biker = new Biker(200, 100, 0.8);
+// let grandpa = new Grandpa(400, 300, 0.8);
+// let bunny = new Bunny(300, 100, 1);
 
 function jthSchool(jthX, jthY, jthS) {
   //JTH
@@ -1391,6 +1391,7 @@ function appearingCharacter() {
 
   // Define a random position (offscreen, top of the canvas)
   let appearingX = lane;
+
   // Start above the screen
   let appearingY = -50;
 
@@ -1422,15 +1423,9 @@ function draw() {
       // Update position
       character.GrandpaY += speed;
 
-      // Reset position if it goes beyond the canvas
-      // if (character.GrandpaY > 720) {
-      //   character.GrandpaY = -50;
-      // }
-
       // Draw the character
       character.draw();
     }
-
     player.update();
     player.draw();
   }
@@ -1439,7 +1434,7 @@ function draw() {
 function mouseClicked() {
   if (
     state === "start" &&
-    mouseX >= 180 &&
+    mouseX >= 120 &&
     mouseX <= 319 &&
     mouseY >= 200 &&
     mouseY <= 250
@@ -1461,6 +1456,7 @@ function mouseClicked() {
   }
 }
 
+//to move the player on the lanes
 function keyPressed() {
   if (keyCode === LEFT_ARROW && currentLane > 0) {
     currentLane--;
