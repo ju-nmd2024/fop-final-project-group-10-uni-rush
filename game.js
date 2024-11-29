@@ -1,5 +1,8 @@
 let state = "start";
 
+//Game timer
+let gameTimer = 0;
+
 //for the array for the characters (all ppl are in characters) moving down
 let characters = [];
 let speed = 7;
@@ -1200,63 +1203,6 @@ function updateHearts() {
   }
 }
 
-/* function heart(x, y, size) {
-  // Top left curve
-  beginShape();
-  vertex(x, y);
-  bezierVertex(x - size / 2, y - size / 2, x - size, y + size / 8, x, y + size);
-
-  // Top right curve
-  bezierVertex(x + size, y + size / 8, x + size / 2, y - size / 2, x, y);
-
-  endShape(CLOSE);
-}
-
-function drawHeartThree(x, y, s) {
-  fill(255, 255, 255, 180);
-  noStroke();
-  rect(x - 80 * s, y - 55 * s, 420 * s, 190 * s, 30 * s);
-
-  fill(255, 0, 0);
-  stroke(0);
-  strokeWeight(3 * s);
-
-  heart(x, y, 100 * s);
-  heart(x + 130 * s, y, 100 * s);
-  heart(x + 260 * s, y, 100 * s);
-}
-
-function drawHeartTwo(x, y, s) {
-  fill(255, 255, 255, 180);
-  noStroke();
-  rect(x - 80 * s, y - 55 * s, 420 * s, 190 * s, 30 * s);
-
-  fill(255, 0, 0);
-  stroke(0);
-  strokeWeight(3 * s);
-
-  heart(x, y, 100 * s);
-  heart(x + 130 * s, y, 100 * s);
-  fill(100);
-  heart(x + 260 * s, y, 100 * s);
-}
-
-function drawHeartOne(x, y, s) {
-  fill(255, 255, 255, 180);
-  noStroke();
-  rect(x - 80 * s, y - 55 * s, 420 * s, 190 * s, 30 * s);
-
-  fill(255, 0, 0);
-  stroke(0);
-  strokeWeight(3 * s);
-
-  heart(x, y, 100 * s);
-  fill(100);
-  heart(x + 130 * s, y, 100 * s);
-  heart(x + 260 * s, y, 100 * s);
-} 
- */
-
 function jthSchool(jthX, jthY, jthS) {
   //JTH
   //building
@@ -1557,7 +1503,8 @@ function checkCollision(player, character) {
   // Box of Characters + Bunny
   let charWidth = 30 * character.GrandpaS;
   let charHeight =
-    character instanceof Bunny ? 50 * character.GrandpaS
+    character instanceof Bunny
+      ? 50 * character.GrandpaS
       : 170 * character.GrandpaS;
 
   let charLeft = character.GrandpaX - charWidth / 2;
@@ -1607,6 +1554,12 @@ function draw() {
     instructionScreen(100, 100);
   } else if (state === "game") {
     gameScreen();
+    if (gameTimer < 2000) {
+      gameTimer = gameTimer + 1;
+    } else {
+      state = "success";
+      resultSuccess(300, 550, 1);
+    }
 
     //make the characters move
     for (let character of characters) {
@@ -1628,12 +1581,12 @@ function draw() {
     // heart(heartX + 50, heartY, heartSize);
     // heart(570, 50, 30);
   } else if (state === "resultFailed") {
-       resultFailed(300,550,0.5);
-      /* textSize(60);
+    resultFailed(300, 550, 0.5);
+    /* textSize(60);
     fill(255, 0, 0);
-    text("GAME OVER", 200, 200);  */// Game over screen
+    text("GAME OVER", 200, 200);  */ // Game over screen
   }
-} 
+}
 
 function mouseClicked() {
   if (state === "start") {
