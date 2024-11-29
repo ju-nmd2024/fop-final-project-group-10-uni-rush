@@ -8,6 +8,8 @@ let speed = 7;
 let lanes = [200, 300, 400];
 let currentLane = 1;
 let appearingInterval = 2500;
+let lives = 3; //lives for hearts
+let hearts = [];
 
 // with the help of chatGPT
 let stars = [];
@@ -58,6 +60,8 @@ function setup() {
     new Rock(460, 450, 0.5),
     new Rock(490, 580, 0.5),
   ];
+
+  setupHearts();
 }
 
 //Uni Rush start screen
@@ -204,8 +208,6 @@ function gameScreen() {
       rock.rockY = -50;
     }
   }
-
-  drawHeartThree(450, 50, 0.3);
 }
 
 class Player {
@@ -1140,7 +1142,65 @@ class Bunny extends Grandpa {
   }
 }
 
-function heart(x, y, size) {
+class Heart {
+  constructor(heartX, heartY, heartSize) {
+    this.heartX = heartX;
+    this.heartY = heartY;
+    this.heartSize = heartSize;
+    this.isFilled = true;
+  }
+
+  draw() {
+    // Top left curve
+    stroke(0);
+    strokeWeight(1);
+
+    if (this.isFilled) {
+      fill(255, 0, 0); // Red if filled
+    } else {
+      fill(100); // Gray if not filled
+    }
+
+    beginShape();
+    vertex(this.heartX, this.heartY);
+    bezierVertex(
+      this.heartX - this.heartSize / 2,
+      this.heartY - this.heartSize / 2,
+      this.heartX - this.heartSize,
+      this.heartY + this.heartSize / 8,
+      this.heartX,
+      this.heartY + this.heartSize
+    );
+
+    // Top right curve
+    bezierVertex(
+      this.heartX + this.heartSize,
+      this.heartY + this.heartSize / 8,
+      this.heartX + this.heartSize / 2,
+      this.heartY - this.heartSize / 2,
+      this.heartX,
+      this.heartY
+    );
+    endShape(CLOSE);
+  }
+}
+
+//position hearts
+function setupHearts() {
+  hearts = [];
+  for (let i = 0; i < 3; i++) {
+    hearts.push(new Heart(450 + i * 50, 20, 40));
+  }
+}
+
+// Turn the next heart gray
+function updateHearts() {
+  if (lives >= 0 && lives < hearts.length) {
+    hearts[3 - lives - 1].isFilled = false; // Update the correct heart to gray
+  }
+}
+
+/* function heart(x, y, size) {
   // Top left curve
   beginShape();
   vertex(x, y);
@@ -1194,7 +1254,8 @@ function drawHeartOne(x, y, s) {
   fill(100);
   heart(x + 130 * s, y, 100 * s);
   heart(x + 260 * s, y, 100 * s);
-}
+} 
+ */
 
 function jthSchool(jthX, jthY, jthS) {
   //JTH
@@ -1496,8 +1557,7 @@ function checkCollision(player, character) {
   // Box of Characters + Bunny
   let charWidth = 30 * character.GrandpaS;
   let charHeight =
-    character instanceof Bunny
-      ? 50 * character.GrandpaS
+    character instanceof Bunny ? 50 * character.GrandpaS
       : 170 * character.GrandpaS;
 
   let charLeft = character.GrandpaX - charWidth / 2;
@@ -1517,12 +1577,17 @@ function checkCollision(player, character) {
 function detectCollisions() {
   for (let character of characters) {
     if (checkCollision(player, character)) {
-      //console.log("Collision detected!");
-      //resultFailed(300, 500, 1);
-      /* textSize(60);
-      fill(255, 0, 0);
-      text("OH NO", 200, 200);  */
-      drawHeartTwo(450, 50, 0.3);
+      if (lives > 0) {
+        characters.splice(characters.indexOf(character), 1);
+        lives--;
+        updateHearts();
+        console.log("minus live");
+      }
+      if (lives === 0) {
+        state = "resultFailed";
+        console.log("Failed");
+      }
+      break;
     }
   }
 }
@@ -1551,13 +1616,24 @@ function draw() {
       // Draw the character
       character.draw();
     }
-
     detectCollisions();
+
     player.update();
     player.draw();
-    //heart();
+
+    for (let heart of hearts) {
+      heart.draw();
+    }
+    // heart(heartX, heartY, heartSize);
+    // heart(heartX + 50, heartY, heartSize);
+    // heart(570, 50, 30);
+  } else if (state === "resultFailed") {
+       resultFailed(300,550,0.5);
+      /* textSize(60);
+    fill(255, 0, 0);
+    text("GAME OVER", 200, 200);  */// Game over screen
   }
-}
+} 
 
 function mouseClicked() {
   if (state === "start") {

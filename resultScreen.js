@@ -319,5 +319,5 @@ function resultFailed(jthX, jthY, jthS) {
 function draw() {
   resultSuccess(300, 550, 1);
 
-  /*  resultFailed(300, 550, 0.5);*/
+    resultFailed(300, 550, 0.5);
 }

@@ -1,4 +1,4 @@
-function setup() {
+/* function setup() {
   createCanvas(600, 700);
 }
 class Heart {
@@ -81,10 +81,12 @@ function drawHeartOne(x, y, s) {
   heart(x + 260 * s, y, 100 * s);
 } */
 
-let heart = new Heart(450, 100, 40);
+/* let heart = new Heart(450, 100, 40);
 
 function draw() {
   background(255, 255, 255);
 
   heart.draw();
-}
+} */
+
+  
