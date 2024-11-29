@@ -1,7 +1,9 @@
 let state = "start";
+
 //for the array for the characters (all ppl are in characters) moving down
 let characters = [];
 let speed = 7;
+
 //player moves left and right in the lanes
 let lanes = [200, 300, 400];
 let currentLane = 1;
@@ -127,8 +129,29 @@ function startScreen(x, y) {
   text("Instructions", x + 70, y + 180);
 }
 
-function gameScreen() {
+function instructionScreen(x, y) {
+  background(69, 49, 90);
+  noStroke();
+  fill(255, 255, 255);
+  textSize(40);
+  text("INSTRUCTIONS", x + 50, y);
 
+  textSize(20);
+  text("Read CAREFULLY! Otherwise you will fail your course.", x - 50, y + 30);
+
+  //Instructions
+
+  //button
+  fill(234, 206, 173);
+  rect(x + 100, y + 400, 200, 50, 10);
+
+  // text
+  fill(255, 255, 255);
+  textSize(40);
+  text("GO BACK", x + 108, y + 440);
+}
+
+function gameScreen() {
   // street lane
   fill(165, 185, 175);
   rect(150, 0, 300, 700);
@@ -153,7 +176,6 @@ function gameScreen() {
 
   fill(20, 140, 160, 110);
   rect(530, 0, 20, 700);
-  
 
   for (let bush of bushes) {
     bush.draw();
@@ -181,10 +203,9 @@ function gameScreen() {
     if (rock.rockY > 720) {
       rock.rockY = -50;
     }
-  } 
-   
-  drawHeartThree(450, 50, 0.3);
+  }
 
+  drawHeartThree(450, 50, 0.3);
 }
 
 class Player {
@@ -1119,8 +1140,6 @@ class Bunny extends Grandpa {
   }
 }
 
-let s = 1;
-
 function heart(x, y, size) {
   // Top left curve
   beginShape();
@@ -1477,7 +1496,8 @@ function checkCollision(player, character) {
   // Box of Characters + Bunny
   let charWidth = 30 * character.GrandpaS;
   let charHeight =
-    character instanceof Bunny ? 50 * character.GrandpaS
+    character instanceof Bunny
+      ? 50 * character.GrandpaS
       : 170 * character.GrandpaS;
 
   let charLeft = character.GrandpaX - charWidth / 2;
@@ -1510,6 +1530,7 @@ function detectCollisions() {
 function draw() {
   if (state === "start") {
     startScreen(100, 100);
+
     //stars
     noStroke();
     for (let star of stars) {
@@ -1517,6 +1538,8 @@ function draw() {
       ellipse(star.x, star.y, 2);
       star.alpha += 0.02;
     }
+  } else if (state === "instruction") {
+    instructionScreen(100, 100);
   } else if (state === "game") {
     gameScreen();
 
@@ -1537,27 +1560,25 @@ function draw() {
 }
 
 function mouseClicked() {
-  if (
-    state === "start" &&
-    mouseX >= 120 &&
-    mouseX <= 319 &&
-    mouseY >= 200 &&
-    mouseY <= 250
-  ) {
-    state = "game";
+  if (state === "start") {
+    if (mouseX >= 120 && mouseX <= 319 && mouseY >= 200 && mouseY <= 250) {
+      state = "game";
+    } else if (
+      mouseX >= 120 &&
+      mouseX <= 320 &&
+      mouseY >= 260 &&
+      mouseY < 285
+    ) {
+      state = "instruction";
+    }
   } else if (
-    (state === "resultSuccess" &&
-      mouseX >= 200 &&
-      mouseX <= 400 &&
-      mouseY >= 280 &&
-      mouseY <= 330) ||
-    (state === "resultFailed" &&
-      mouseX >= 200 &&
-      mouseX <= 400 &&
-      mouseY >= 280 &&
-      mouseY <= 330)
+    state === "instruction" &&
+    mouseX >= 200 &&
+    mouseX <= 400 &&
+    mouseY >= 500 &&
+    mouseY < 550
   ) {
-    state = "game";
+    state = "start";
   }
 }
 
