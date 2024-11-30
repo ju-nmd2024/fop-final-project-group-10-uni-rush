@@ -6,8 +6,11 @@ let jthX = 300;
 let jthY = 500;
 let jthS = 1;
 
-let treeX = 80;
-let treeY = 300;
+let lanes = [200, 300, 400];
+let currentLane = 1;
+
+/* let treeX = 80;
+let treeY = 300; 
 let treeS = 1;
 
 function tree(treeX, treeY, treeS) {
@@ -55,7 +58,376 @@ function bush(treeX, treeY, treeS) {
   ellipse(treeX + 35 * treeS, treeY + 20 * treeS, 30 * treeS);
   ellipse(treeX + 20 * treeS, treeY + 30 * treeS, 25 * treeS);
   ellipse(treeX + 25 * treeS, treeY - 25 * treeS, 30 * treeS);
+} */
+
+class Player {
+  constructor(x, y, s) {
+    this.x = lanes[currentLane];
+    this.y = y;
+    this.s = s;
+  }
+
+  update() {
+    this.x = lanes[currentLane];
+  }
+  draw() {
+    noStroke();
+
+    // Ears
+    fill(189, 158, 122);
+    ellipse(this.x - 23 * this.s, this.y, 15 * this.s);
+    ellipse(this.x + 23 * this.s, this.y, 15 * this.s);
+
+    // Throat
+    beginShape();
+    vertex(this.x - 10 * this.s, this.y + 20 * this.s);
+    bezierVertex(
+      this.x - 10 * this.s,
+      this.y + 25 * this.s,
+      this.x - 10 * this.s,
+      this.y + 30 * this.s,
+      this.x - 15 * this.s,
+      this.y + 35 * this.s
+    );
+    vertex(this.x + 15 * this.s, this.y + 35 * this.s);
+    bezierVertex(
+      this.x + 10 * this.s,
+      this.y + 30 * this.s,
+      this.x + 10 * this.s,
+      this.y + 25 * this.s,
+      this.x + 10 * this.s,
+      this.y + 20 * this.s
+    );
+    endShape(CLOSE);
+
+    // Head Hair
+    fill(95, 75, 53);
+    ellipse(this.x, this.y, 50 * this.s);
+
+    // Arm Left
+    fill(189, 158, 122);
+    beginShape();
+    vertex(this.x - 28 * this.s, this.y + 36 * this.s);
+    vertex(this.x - 50 * this.s, this.y + 50 * this.s);
+    bezierVertex(
+      this.x - 55 * this.s,
+      this.y + 55 * this.s,
+      this.x - 55 * this.s,
+      this.y + 60 * this.s,
+      this.x - 47 * this.s,
+      this.y + 70 * this.s
+    );
+    vertex(this.x - 30 * this.s, this.y + 85 * this.s);
+    vertex(this.x - 30 * this.s, this.y + 73 * this.s);
+    vertex(this.x - 40 * this.s, this.y + 60 * this.s);
+    vertex(this.x - 30 * this.s, this.y + 53 * this.s);
+    endShape();
+
+    // Arm Right
+    beginShape();
+    vertex(this.x + 28 * this.s, this.y + 36 * this.s);
+    vertex(this.x + 50 * this.s, this.y + 50 * this.s);
+    bezierVertex(
+      this.x + 55 * this.s,
+      this.y + 55 * this.s,
+      this.x + 55 * this.s,
+      this.y + 60 * this.s,
+      this.x + 47 * this.s,
+      this.y + 70 * this.s
+    );
+    vertex(this.x + 30 * this.s, this.y + 85 * this.s);
+    vertex(this.x + 30 * this.s, this.y + 73 * this.s);
+    vertex(this.x + 40 * this.s, this.y + 60 * this.s);
+    vertex(this.x + 30 * this.s, this.y + 53 * this.s);
+    endShape();
+
+    // Body
+    fill(225, 211, 87);
+    rect(
+      this.x - 32.5 * this.s,
+      this.y + 35 * this.s,
+      65 * this.s,
+      70 * this.s,
+      10 * this.s
+    );
+
+    // Tail
+    fill(75, 57, 38);
+    beginShape();
+    vertex(this.x, this.y);
+    bezierVertex(
+      this.x + 10 * this.s,
+      this.y + 5 * this.s,
+      this.x + 20 * this.s,
+      this.y + 10 * this.s,
+      this.x + 25 * this.s,
+      this.y + 25 * this.s
+    );
+    vertex(this.x + 25 * this.s, this.y + 10 * this.s);
+    bezierVertex(
+      this.x + 25 * this.s,
+      this.y,
+      this.x + 20 * this.s,
+      this.y - 5 * this.s,
+      this.x + 10 * this.s,
+      this.y - 5 * this.s
+    );
+    endShape();
+
+    ellipse(this.x + 4, this.y - 4, 10);
+
+    // Leg Pants Left/Right
+    fill(225, 211, 87);
+    rect(
+      this.x - 30 * this.s,
+      this.y + 90 * this.s,
+      20 * this.s,
+      40 * this.s,
+      20 * this.s
+    );
+    rect(
+      this.x + 10 * this.s,
+      this.y + 90 * this.s,
+      20 * this.s,
+      40 * this.s,
+      20 * this.s
+    );
+
+    // Leg Right
+    fill(189, 158, 122);
+    rect(this.x + 13 * this.s, this.y + 125 * this.s, 14 * this.s, 20 * this.s);
+
+    // Shoes Left/Right
+    fill(183, 61, 39);
+    rect(
+      this.x - 30 * this.s,
+      this.y + 120 * this.s,
+      20 * this.s,
+      25 * this.s,
+      20 * this.s
+    );
+    rect(
+      this.x + 10 * this.s,
+      this.y + 143 * this.s,
+      20 * this.s,
+      10 * this.s,
+      10 * this.s
+    );
+
+    // Backpack Stripes Left/Right
+    stroke(106, 39, 27);
+    line(
+      this.x - 17 * this.s,
+      this.y + 40 * this.s,
+      this.x - 20 * this.s,
+      this.y + 36 * this.s
+    );
+    line(
+      this.x - 23 * this.s,
+      this.y + 75 * this.s,
+      this.x - 32 * this.s,
+      this.y + 70 * this.s
+    );
+    line(
+      this.x + 17 * this.s,
+      this.y + 40 * this.s,
+      this.x + 20 * this.s,
+      this.y + 36 * this.s
+    );
+    line(
+      this.x + 23 * this.s,
+      this.y + 75 * this.s,
+      this.x + 32 * this.s,
+      this.y + 70 * this.s
+    );
+
+    // Backpack
+    noStroke();
+    fill(183, 61, 39);
+    rect(
+      this.x - 23 * this.s,
+      this.y + 40 * this.s,
+      46 * this.s,
+      50 * this.s,
+      5 * this.s
+    );
+    fill(150, 51, 33);
+    rect(
+      this.x - 23 * this.s,
+      this.y + 40 * this.s,
+      46 * this.s,
+      20 * this.s,
+      5 * this.s
+    );
+    fill(106, 39, 27);
+    rect(
+      this.x - 5 * this.s,
+      this.y + 50 * this.s,
+      10 * this.s,
+      15 * this.s,
+      2 * this.s
+    );
+  }
 }
+
+let playerFail = new Player(400, 600, 0.5);
+let playerSuccess = new Player(350, 550, 1);
+
+class Tree {
+  constructor(treeX, treeY, treeS) {
+    this.treeX = treeX;
+    this.treeY = treeY;
+    this.treeS = treeS;
+  }
+
+  draw() {
+    noStroke();
+    // tree trunk
+    fill(130, 100, 15);
+    rect(
+      this.treeX - 15 * this.treeS,
+      this.treeY + 20 * this.treeS,
+      30 * this.treeS,
+      40 * this.treeS
+    );
+
+    // main foliage
+    fill(60, 185, 15);
+    ellipse(this.treeX, this.treeY, 80 * this.treeS);
+
+    // left side leaves
+    ellipse(
+      this.treeX - 40 * this.treeS,
+      this.treeY - 5 * this.treeS,
+      30 * this.treeS
+    );
+    ellipse(
+      this.treeX - 35 * this.treeS,
+      this.treeY + 20 * this.treeS,
+      30 * this.treeS
+    );
+    ellipse(
+      this.treeX - 20 * this.treeS,
+      this.treeY + 30 * this.treeS,
+      25 * this.treeS
+    );
+    ellipse(
+      this.treeX - 25 * this.treeS,
+      this.treeY - 25 * this.treeS,
+      30 * this.treeS
+    );
+
+    // middle leaves
+    ellipse(
+      this.treeX,
+      this.treeY - 35 * this.treeS,
+      30 * this.treeS,
+      25 * this.treeS
+    );
+    ellipse(this.treeX, this.treeY + 32 * this.treeS, 25 * this.treeS);
+
+    // right side leaves
+    ellipse(
+      this.treeX + 40 * this.treeS,
+      this.treeY - 5 * this.treeS,
+      30 * this.treeS
+    );
+    ellipse(
+      this.treeX + 35 * this.treeS,
+      this.treeY + 20 * this.treeS,
+      30 * this.treeS
+    );
+    ellipse(
+      this.treeX + 20 * this.treeS,
+      this.treeY + 30 * this.treeS,
+      25 * this.treeS
+    );
+    ellipse(
+      this.treeX + 25 * this.treeS,
+      this.treeY - 25 * this.treeS,
+      30 * this.treeS
+    );
+  }
+}
+let tree1 = new Tree(34, 620, 0.6);
+let tree2 = new Tree(565, 620, 0.6);
+let tree3 = new Tree(180, 620, 0.8);
+let tree4 = new Tree(495, 620, 0.8);
+let tree5 = new Tree(250, 600, 0.4);
+let tree6 = new Tree(405, 600, 0.4);
+
+class Bush {
+  constructor(bushX, bushY, bushS) {
+    this.bushX = bushX;
+    this.bushY = bushY;
+    this.bushS = bushS;
+  }
+
+  draw() {
+    // main foliage
+    fill(60, 185, 15);
+    ellipse(this.bushX, this.bushY, 80 * this.bushS);
+
+    // left side leaves
+    ellipse(
+      this.bushX - 40 * this.bushS,
+      this.bushY - 5 * this.bushS,
+      30 * this.bushS
+    );
+    ellipse(
+      this.bushX - 35 * this.bushS,
+      this.bushY + 20 * this.bushS,
+      30 * this.bushS
+    );
+    ellipse(
+      this.bushX - 20 * this.bushS,
+      this.bushY + 30 * this.bushS,
+      25 * this.bushS
+    );
+    ellipse(
+      this.bushX - 25 * this.bushS,
+      this.bushY - 25 * this.bushS,
+      30 * this.bushS
+    );
+
+    // middle leaves
+    ellipse(
+      this.bushX,
+      this.bushY - 35 * this.bushS,
+      30 * this.bushS,
+      25 * this.bushS
+    );
+    ellipse(this.bushX, this.bushY + 32 * this.bushS, 25 * this.bushS);
+
+    // right side leaves
+    ellipse(
+      this.bushX + 40 * this.bushS,
+      this.bushY - 5 * this.bushS,
+      30 * this.bushS
+    );
+    ellipse(
+      this.bushX + 35 * this.bushS,
+      this.bushY + 20 * this.bushS,
+      30 * this.bushS
+    );
+    ellipse(
+      this.bushX + 20 * this.bushS,
+      this.bushY + 30 * this.bushS,
+      25 * this.bushS
+    );
+    ellipse(
+      this.bushX + 25 * this.bushS,
+      this.bushY - 25 * this.bushS,
+      30 * this.bushS
+    );
+  }
+}
+let bush1 = new Bush(60, 650, 0.2);
+let bush2 = new Bush(540, 650, 0.2);
+let bush3 = new Bush(130, 680, 0.4);
+let bush4 = new Bush(540, 680, 0.4);
+let bush5 = new Bush(230, 630, 0.2);
+let bush6 = new Bush(430, 630, 0.2);
 
 function jthSchool(jthX, jthY, jthS) {
   //JTH
@@ -227,7 +599,7 @@ function cloud(jthX, jthY, jthS) {
   ellipse(jthX + 50 * jthS, jthY + 195 * jthS, 30 * jthS);
 }
 
-function playAgain(x, y) {
+function playAgain() {
   noStroke();
   fill(240, 220, 20);
   rect(170, 200, 250, 100, 20);
@@ -238,7 +610,7 @@ function playAgain(x, y) {
   text("PLAY AGAIN", 200, 260);
 }
 
-function menu(x, y) {
+function menu() {
   noStroke();
   fill(45, 170, 20);
   rect(220, 330, 150, 50, 20);
@@ -249,7 +621,7 @@ function menu(x, y) {
   text("MENU", 265, 365);
 }
 
-function resultSuccess(jthX, jthY, jthS) {
+function resultSuccess() {
   fill(70, 220, 220);
   rect(0, 0, 600, 700);
 
@@ -266,17 +638,23 @@ function resultSuccess(jthX, jthY, jthS) {
   textSize(40);
   text("YOU ARE IN TIME!", 130, 150);
 
-  jthSchool(jthX, jthY, jthS);
+  jthSchool(300, 550, 1);
 
   //floor
   fill(200, 200, 145);
   rect(0, 650, width, height);
 
-  playAgain(200, 100);
-  menu(230, 300);
+  playerSuccess.draw();
+  tree1.draw();
+  tree2.draw();
+  bush1.draw();
+  bush2.draw();
+
+  playAgain();
+  menu();
 }
 
-function resultFailed(jthX, jthY, jthS) {
+function resultFailed() {
   fill(145, 170, 170);
   rect(0, 0, 600, 700);
 
@@ -293,7 +671,7 @@ function resultFailed(jthX, jthY, jthS) {
   textSize(40);
   text("YOU ARE NOT IN TIME!", 70, 150);
 
-  jthSchool(jthX, jthY, jthS);
+  jthSchool(300, 550, 0.5);
 
   //floor
   fill(200, 200, 145);
@@ -301,23 +679,26 @@ function resultFailed(jthX, jthY, jthS) {
 
   //street
   stroke(0);
-  line(jthX - 200, jthY + 200, jthX, jthY + 50);
-  line(jthX + 400, jthY + 300, jthX + 45, jthY + 50);
+  line(100, 750, 300, 600);
+  line(700, 800, 345, 600);
 
-  //bush
-  bush(270, 605, 0.2);
-  bush(375, 605, 0.2);
+  playerFail.draw();
 
-  //tree
-  tree(240, 610, 0.4);
-  tree(410, 610, 0.4);
+  tree3.draw();
+  tree4.draw();
+  tree5.draw();
+  tree6.draw();
+  bush3.draw();
+  bush4.draw();
+  bush5.draw();
+  bush6.draw();
 
-  playAgain(200, 100);
-  menu(230, 300);
+  playAgain();
+  menu();
 }
 
 function draw() {
-  resultSuccess(300, 550, 1);
+  resultSuccess();
 
-    resultFailed(300, 550, 0.5);
+  resultFailed();
 }

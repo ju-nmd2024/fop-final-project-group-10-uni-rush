@@ -1,6 +1,6 @@
 let state = "start";
 
-//Game timer
+//Game timer 
 let gameTimer = 0;
 
 //for the array for the characters (all ppl are in characters) moving down
@@ -45,7 +45,7 @@ function setup() {
 
   //bushes array
   bushes = [
-    new Bush(50, 170, 0.5),
+    new Bush(50, 170, 0.5), 
     new Bush(95, 265, 0.5),
     new Bush(50, 480, 0.5),
     new Bush(110, 665, 0.5),
@@ -426,6 +426,9 @@ class Player {
 let player = new Player(300, 550, 0.8);
 let jumpPlayer = new Player(300, 550, 1);
 
+let playerFail = new Player(400, 600, 0.5);
+let playerSuccess = new Player(350, 550, 1);
+
 class Tree {
   constructor(treeX, treeY, treeS) {
     this.treeX = treeX;
@@ -502,6 +505,12 @@ class Tree {
     );
   }
 }
+let tree1 = new Tree(34, 620, 0.6);
+let tree2 = new Tree(565, 620, 0.6);
+let tree3 = new Tree(180, 620, 0.8);
+let tree4 = new Tree(495, 620, 0.8);
+let tree5 = new Tree(250, 600, 0.4);
+let tree6 = new Tree(405, 600, 0.4);
 
 class Bush {
   constructor(bushX, bushY, bushS) {
@@ -569,6 +578,12 @@ class Bush {
     );
   }
 }
+let bush1 = new Bush(60, 650, 0.2);
+let bush2 = new Bush(540, 650, 0.2);
+let bush3 = new Bush(130, 680, 0.4);
+let bush4 = new Bush(540, 680, 0.4);
+let bush5 = new Bush(230, 630, 0.2);
+let bush6 = new Bush(430, 630, 0.2);
 
 class Rock {
   constructor(rockX, rockY, rockS) {
@@ -580,8 +595,8 @@ class Rock {
     fill(95, 90, 90);
     ellipse(this.rockX, this.rockY, 10 * this.rockS, 15 * this.rockS);
   }
-}
-
+} 
+ 
 class Grandpa {
   constructor(GrandpaX, GrandpaY, GrandpaS) {
     this.GrandpaX = GrandpaX;
@@ -1192,7 +1207,7 @@ class Heart {
 function setupHearts() {
   hearts = [];
   for (let i = 0; i < 3; i++) {
-    hearts.push(new Heart(450 + i * 50, 20, 40));
+    hearts.push(new Heart(480 + i * 40, 20, 30));
   }
 }
 
@@ -1418,12 +1433,16 @@ function resultSuccess(jthX, jthY, jthS) {
   fill(200, 200, 145);
   rect(0, 650, width, height);
 
-  player(300, 600, 1);
+  playerSuccess.draw();
+  tree1.draw();
+  tree2.draw();
+  bush1.draw();
+  bush2.draw();
 
   playAgain(200, 100);
   menu(230, 300);
 }
-
+ 
 function resultFailed(jthX, jthY, jthS) {
   fill(145, 170, 170);
   rect(0, 0, 600, 700);
@@ -1452,18 +1471,18 @@ function resultFailed(jthX, jthY, jthS) {
   line(jthX - 200, jthY + 200, jthX, jthY + 50);
   line(jthX + 400, jthY + 300, jthX + 45, jthY + 50);
 
-  //bush
-  noStroke();
-  bush(270, 605, 0.2);
-  bush(375, 605, 0.2);
+  playerFail.draw();
 
-  //tree
-  tree(235, 610, 0.4);
-  tree(410, 610, 0.4);
+  tree3.draw();
+  tree4.draw();
+  tree5.draw();
+  tree6.draw();
+  bush3.draw();
+  bush4.draw();
+  bush5.draw();
+  bush6.draw();
 
-  player(320, 600, 0.4);
-
-  playAgain(200, 100);
+  playAgain(200, 100); 
   menu(230, 300);
 }
 
@@ -1488,7 +1507,7 @@ function appearingCharacter() {
   } else if (randomCharacter === "Bunny") {
     characters.push(new Bunny(appearingX, appearingY, 0.8));
   }
-}
+} 
 
 function checkCollision(player, character) {
   // Box of Player
@@ -1503,8 +1522,7 @@ function checkCollision(player, character) {
   // Box of Characters + Bunny
   let charWidth = 30 * character.GrandpaS;
   let charHeight =
-    character instanceof Bunny
-      ? 50 * character.GrandpaS
+    character instanceof Bunny? 50 * character.GrandpaS
       : 170 * character.GrandpaS;
 
   let charLeft = character.GrandpaX - charWidth / 2;
@@ -1520,7 +1538,7 @@ function checkCollision(player, character) {
     playerBottom > charTop
   );
 }
-
+ 
 function detectCollisions() {
   for (let character of characters) {
     if (checkCollision(player, character)) {
@@ -1550,43 +1568,40 @@ function draw() {
       ellipse(star.x, star.y, 2);
       star.alpha += 0.02;
     }
-  } else if (state === "instruction") {
+  } else if (state === "instruction") { 
     instructionScreen(100, 100);
   } else if (state === "game") {
     gameScreen();
     if (gameTimer < 2000) {
       gameTimer = gameTimer + 1;
-    } else {
+    }  else {
       state = "success";
-      resultSuccess(300, 550, 1);
-    }
+      resultSuccess(300, 550, 1); 
+    } 
 
     //make the characters move
     for (let character of characters) {
       // Update position
       character.GrandpaY += speed;
-
+ 
       // Draw the character
-      character.draw();
+      character.draw(); 
     }
     detectCollisions();
 
     player.update();
     player.draw();
 
-    for (let heart of hearts) {
-      heart.draw();
-    }
-    // heart(heartX, heartY, heartSize);
-    // heart(heartX + 50, heartY, heartSize);
-    // heart(570, 50, 30);
+    for (let heart of hearts) { 
+      heart.draw(); 
+    } 
+     
+  } else if (state === "success") { 
+    resultSuccess(300, 550, 1); 
   } else if (state === "resultFailed") {
     resultFailed(300, 550, 0.5);
-    /* textSize(60);
-    fill(255, 0, 0);
-    text("GAME OVER", 200, 200);  */ // Game over screen
   }
-}
+} 
 
 function mouseClicked() {
   if (state === "start") {
@@ -1596,7 +1611,7 @@ function mouseClicked() {
       mouseX >= 120 &&
       mouseX <= 320 &&
       mouseY >= 260 &&
-      mouseY < 285
+      mouseY < 285 
     ) {
       state = "instruction";
     }
@@ -1610,7 +1625,7 @@ function mouseClicked() {
     state = "start";
   }
 }
-
+ 
 //to move the player on the lanes
 function keyPressed() {
   if (keyCode === LEFT_ARROW && currentLane > 0) {
@@ -1619,3 +1634,4 @@ function keyPressed() {
     currentLane++;
   }
 }
+ 
