@@ -1584,6 +1584,24 @@ function detectCollisions() {
   }
 }
 
+//looked up the "reset"
+function resetGame() {
+  // Reset gameTimer and lifes
+  gameTimer = 0;
+  lives = 3;
+
+  // Reset hearts
+  for (let heart of hearts) {
+    heart.isFilled = true;
+  }
+
+  // Reset player and characters
+  player.reset();
+  for (let character of characters) {
+    character.resetPosition();
+  }
+}
+
 function draw() {
   if (state === "start") {
     startScreen(100, 100);
@@ -1626,6 +1644,9 @@ function draw() {
     resultSuccess(300, 550, 1);
   } else if (state === "resultFailed") {
     resultFailed(300, 550, 0.5);
+  } else if (state === "reset") {
+    resetGame();
+    state = "start";
   }
 }
 
@@ -1649,6 +1670,18 @@ function mouseClicked() {
     mouseY < 550
   ) {
     state = "start";
+  }
+  if (state === "resultFailed") {
+    if (mouseX >= 170 && mouseX <= 420 && mouseY >= 200 && mouseY <= 300) {
+      state = "game";
+    } else if (
+      mouseX >= 220 &&
+      mouseX <= 370 &&
+      mouseY >= 330 &&
+      mouseY < 380
+    ) {
+      state = "start";
+    }
   }
 }
 
