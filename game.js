@@ -1,6 +1,6 @@
 let state = "start";
 
-//Game timer 
+//Game timer
 let gameTimer = 0;
 
 //for the array for the characters (all ppl are in characters) moving down
@@ -25,8 +25,12 @@ const regionHeight = 200;
 function setup() {
   createCanvas(600, 700);
 
-  //chatgpt for time interval in which the player come down
-  setInterval(appearingCharacter, appearingInterval);
+  //chatgpt for time interval in which the player come down (characters only come when state = game)
+  setInterval(() => {
+    if (state === "game") {
+      appearingCharacter();
+    }
+  }, appearingInterval);
 
   //stars
   for (let i = 0; i < 100; i++) {
@@ -45,7 +49,7 @@ function setup() {
 
   //bushes array
   bushes = [
-    new Bush(50, 170, 0.5), 
+    new Bush(50, 170, 0.5),
     new Bush(95, 265, 0.5),
     new Bush(50, 480, 0.5),
     new Bush(110, 665, 0.5),
@@ -146,13 +150,35 @@ function instructionScreen(x, y) {
   textSize(20);
   text("Read CAREFULLY! Otherwise you will fail your course.", x - 50, y + 30);
 
-  //Instructions
+  // Instructions
+  textSize(15);
+  text(
+    "1. Use the arrow keys (←, ↑, →) to move between the three lanes",
+    x - 40,
+    y + 120
+  );
+  text("and dodge obstacles.", x - 20, y + 140);
+
+  text("2. If you hit an obstacle, you will loose one life", x - 40, y + 170);
+
+  text(
+    "3. If you lose all your lives, you fail to reach university on time",
+    x - 40,
+    y + 200
+  );
+  text("and lose the game", x - 20, y + 220);
+
+  text(
+    "4. Reach university with at least 1 life left to win the game!",
+    x - 40,
+    y + 250
+  );
 
   //button
   fill(234, 206, 173);
   rect(x + 100, y + 400, 200, 50, 10);
 
-  // text
+  // text go back
   fill(255, 255, 255);
   textSize(40);
   text("GO BACK", x + 108, y + 440);
@@ -595,8 +621,8 @@ class Rock {
     fill(95, 90, 90);
     ellipse(this.rockX, this.rockY, 10 * this.rockS, 15 * this.rockS);
   }
-} 
- 
+}
+
 class Grandpa {
   constructor(GrandpaX, GrandpaY, GrandpaS) {
     this.GrandpaX = GrandpaX;
@@ -1442,7 +1468,7 @@ function resultSuccess(jthX, jthY, jthS) {
   playAgain(200, 100);
   menu(230, 300);
 }
- 
+
 function resultFailed(jthX, jthY, jthS) {
   fill(145, 170, 170);
   rect(0, 0, 600, 700);
@@ -1482,7 +1508,7 @@ function resultFailed(jthX, jthY, jthS) {
   bush5.draw();
   bush6.draw();
 
-  playAgain(200, 100); 
+  playAgain(200, 100);
   menu(230, 300);
 }
 
@@ -1507,7 +1533,7 @@ function appearingCharacter() {
   } else if (randomCharacter === "Bunny") {
     characters.push(new Bunny(appearingX, appearingY, 0.8));
   }
-} 
+}
 
 function checkCollision(player, character) {
   // Box of Player
@@ -1522,7 +1548,8 @@ function checkCollision(player, character) {
   // Box of Characters + Bunny
   let charWidth = 30 * character.GrandpaS;
   let charHeight =
-    character instanceof Bunny? 50 * character.GrandpaS
+    character instanceof Bunny
+      ? 50 * character.GrandpaS
       : 170 * character.GrandpaS;
 
   let charLeft = character.GrandpaX - charWidth / 2;
@@ -1538,7 +1565,7 @@ function checkCollision(player, character) {
     playerBottom > charTop
   );
 }
- 
+
 function detectCollisions() {
   for (let character of characters) {
     if (checkCollision(player, character)) {
@@ -1568,40 +1595,39 @@ function draw() {
       ellipse(star.x, star.y, 2);
       star.alpha += 0.02;
     }
-  } else if (state === "instruction") { 
+  } else if (state === "instruction") {
     instructionScreen(100, 100);
   } else if (state === "game") {
     gameScreen();
     if (gameTimer < 2000) {
       gameTimer = gameTimer + 1;
-    }  else {
+    } else {
       state = "success";
-      resultSuccess(300, 550, 1); 
-    } 
+      resultSuccess(300, 550, 1);
+    }
 
     //make the characters move
     for (let character of characters) {
       // Update position
       character.GrandpaY += speed;
- 
+
       // Draw the character
-      character.draw(); 
+      character.draw();
     }
     detectCollisions();
 
     player.update();
     player.draw();
 
-    for (let heart of hearts) { 
-      heart.draw(); 
-    } 
-     
-  } else if (state === "success") { 
-    resultSuccess(300, 550, 1); 
+    for (let heart of hearts) {
+      heart.draw();
+    }
+  } else if (state === "success") {
+    resultSuccess(300, 550, 1);
   } else if (state === "resultFailed") {
     resultFailed(300, 550, 0.5);
   }
-} 
+}
 
 function mouseClicked() {
   if (state === "start") {
@@ -1611,7 +1637,7 @@ function mouseClicked() {
       mouseX >= 120 &&
       mouseX <= 320 &&
       mouseY >= 260 &&
-      mouseY < 285 
+      mouseY < 285
     ) {
       state = "instruction";
     }
@@ -1625,7 +1651,7 @@ function mouseClicked() {
     state = "start";
   }
 }
- 
+
 //to move the player on the lanes
 function keyPressed() {
   if (keyCode === LEFT_ARROW && currentLane > 0) {
@@ -1634,4 +1660,3 @@ function keyPressed() {
     currentLane++;
   }
 }
- 
