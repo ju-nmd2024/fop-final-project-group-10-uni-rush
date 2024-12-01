@@ -608,7 +608,7 @@ let bush1 = new Bush(60, 650, 0.2);
 let bush2 = new Bush(540, 650, 0.2);
 let bush3 = new Bush(130, 680, 0.4);
 let bush4 = new Bush(540, 680, 0.4);
-let bush5 = new Bush(230, 630, 0.2);
+let bush5 = new Bush(230, 630, 0.2); 
 let bush6 = new Bush(430, 630, 0.2);
 
 class Rock {
@@ -1196,8 +1196,6 @@ class Heart {
 
   draw() {
     // Top left curve
-    stroke(0);
-    strokeWeight(1);
 
     if (this.isFilled) {
       fill(255, 0, 0); // Red if filled
@@ -1414,7 +1412,7 @@ function cloud(jthX, jthY, jthS) {
   ellipse(jthX + 50 * jthS, jthY + 195 * jthS, 30 * jthS);
 }
 
-function playAgain(x, y) {
+function playAgain() {
   noStroke();
   fill(240, 220, 20);
   rect(170, 200, 250, 100, 20);
@@ -1425,7 +1423,7 @@ function playAgain(x, y) {
   text("PLAY AGAIN", 200, 260);
 }
 
-function menu(x, y) {
+function menu() {
   noStroke();
   fill(45, 170, 20);
   rect(220, 330, 150, 50, 20);
@@ -1436,7 +1434,7 @@ function menu(x, y) {
   text("MENU", 265, 365);
 }
 
-function resultSuccess(jthX, jthY, jthS) {
+function resultSuccess() {
   fill(70, 220, 220);
   rect(0, 0, 600, 700);
 
@@ -1453,7 +1451,7 @@ function resultSuccess(jthX, jthY, jthS) {
   textSize(40);
   text("YOU ARE IN TIME!", 130, 150);
 
-  jthSchool(jthX, jthY, jthS);
+  jthSchool(300, 550, 1);
 
   //floor
   fill(200, 200, 145);
@@ -1465,11 +1463,11 @@ function resultSuccess(jthX, jthY, jthS) {
   bush1.draw();
   bush2.draw();
 
-  playAgain(200, 100);
-  menu(230, 300);
+  playAgain();
+  menu();
 }
 
-function resultFailed(jthX, jthY, jthS) {
+function resultFailed() {
   fill(145, 170, 170);
   rect(0, 0, 600, 700);
 
@@ -1486,7 +1484,7 @@ function resultFailed(jthX, jthY, jthS) {
   textSize(40);
   text("YOU ARE NOT IN TIME!", 70, 150);
 
-  jthSchool(jthX, jthY, jthS);
+  jthSchool(300, 550, 0.5);
 
   //floor
   fill(200, 200, 145);
@@ -1494,9 +1492,8 @@ function resultFailed(jthX, jthY, jthS) {
 
   //street
   stroke(0);
-  line(jthX - 200, jthY + 200, jthX, jthY + 50);
-  line(jthX + 400, jthY + 300, jthX + 45, jthY + 50);
-
+  line(100, 750, 300, 600);
+  line(700, 800, 345, 600);
   playerFail.draw();
 
   tree3.draw();
@@ -1508,9 +1505,9 @@ function resultFailed(jthX, jthY, jthS) {
   bush5.draw();
   bush6.draw();
 
-  playAgain(200, 100);
-  menu(230, 300);
-}
+  playAgain();
+  menu();
+} 
 
 function appearingCharacter() {
   // Randomly select a lane (200, 300, or 400)
@@ -1536,7 +1533,7 @@ function appearingCharacter() {
 }
 
 function checkCollision(player, character) {
-  // Box of Player
+  // Box of Player 
   let playerWidth = 30 * player.s;
   let playerHeight = 150 * player.s;
   let playerLeft = player.x - playerWidth / 2;
@@ -1548,8 +1545,7 @@ function checkCollision(player, character) {
   // Box of Characters + Bunny
   let charWidth = 30 * character.GrandpaS;
   let charHeight =
-    character instanceof Bunny
-      ? 50 * character.GrandpaS
+    character instanceof Bunny ? 50 * character.GrandpaS
       : 170 * character.GrandpaS;
 
   let charLeft = character.GrandpaX - charWidth / 2;
@@ -1621,7 +1617,7 @@ function draw() {
       gameTimer = gameTimer + 1;
     } else {
       state = "success";
-      resultSuccess(300, 550, 1);
+      resultSuccess();
     }
 
     //make the characters move
@@ -1629,7 +1625,7 @@ function draw() {
       // Update position
       character.GrandpaY += speed;
 
-      // Draw the character
+      // Draw the character 
       character.draw();
     }
     detectCollisions();
@@ -1638,12 +1634,15 @@ function draw() {
     player.draw();
 
     for (let heart of hearts) {
+      fill(255, 255, 255, 30);
+      rect(455, 8, 135, 50, 10); 
+
       heart.draw();
     }
   } else if (state === "success") {
-    resultSuccess(300, 550, 1);
+    resultSuccess();
   } else if (state === "resultFailed") {
-    resultFailed(300, 550, 0.5);
+    resultFailed();
   } else if (state === "reset") {
     resetGame();
     state = "start";
@@ -1665,31 +1664,34 @@ function mouseClicked() {
   } else if (
     state === "instruction" &&
     mouseX >= 200 &&
-    mouseX <= 400 &&
+    mouseX <= 400 && 
     mouseY >= 500 &&
     mouseY < 550
   ) {
     state = "start";
   }
-  if (state === "resultFailed") {
+  if (state === "resultFailed" || state === "success") {
     if (mouseX >= 170 && mouseX <= 420 && mouseY >= 200 && mouseY <= 300) {
       state = "game";
-    } else if (
+      resetGame();
+    } else if ( 
       mouseX >= 220 &&
       mouseX <= 370 &&
       mouseY >= 330 &&
       mouseY < 380
     ) {
       state = "start";
+    resetGame();
     }
   }
 }
-
+    
 //to move the player on the lanes
 function keyPressed() {
-  if (keyCode === LEFT_ARROW && currentLane > 0) {
+  if ((keyCode === LEFT_ARROW || keyCode === 65) && currentLane > 0) {
     currentLane--;
-  } else if (keyCode === RIGHT_ARROW && currentLane < lanes.length - 1) {
+  } else if ((keyCode === RIGHT_ARROW || keyCode === 68) && currentLane < lanes.length - 1) {
     currentLane++;
   }
 }
+ 
