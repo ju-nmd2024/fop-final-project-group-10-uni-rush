@@ -6,9 +6,10 @@ let gameTimer = 0;
 //for the array for the characters (all ppl are in characters) moving down
 let characters = [];
 let speed = 7;
+let isJumping = false; 
 
 //player moves left and right in the lanes
-let lanes = [200, 300, 400];
+let lanes = [200, 300, 400]; 
 let currentLane = 1;
 let appearingInterval = 2500;
 let lives = 3; //lives for hearts
@@ -17,9 +18,9 @@ let hearts = [];
 // with the help of chatGPT
 let stars = [];
 const regionX = 350;
-const regionY = 200;
+const regionY = 200; 
 const regionWidth = 150;
-const regionHeight = 200;
+const regionHeight = 200; 
 
 //function for the canvas and the stars to have them in the rect
 function setup() {
@@ -530,10 +531,10 @@ class Tree {
       30 * this.treeS
     );
   }
-}
+} 
 let tree1 = new Tree(34, 620, 0.6);
 let tree2 = new Tree(565, 620, 0.6);
-let tree3 = new Tree(180, 620, 0.8);
+let tree3 = new Tree(180, 620, 0.8); 
 let tree4 = new Tree(495, 620, 0.8);
 let tree5 = new Tree(250, 600, 0.4);
 let tree6 = new Tree(405, 600, 0.4);
@@ -603,7 +604,7 @@ class Bush {
       30 * this.bushS
     );
   }
-}
+} 
 let bush1 = new Bush(60, 650, 0.2);
 let bush2 = new Bush(540, 650, 0.2);
 let bush3 = new Bush(130, 680, 0.4);
@@ -1234,13 +1235,13 @@ function setupHearts() {
     hearts.push(new Heart(480 + i * 40, 20, 30));
   }
 }
-
+  
 // Turn the next heart gray
 function updateHearts() {
   if (lives >= 0 && lives < hearts.length) {
     hearts[3 - lives - 1].isFilled = false; // Update the correct heart to gray
   }
-}
+} 
 
 function jthSchool(jthX, jthY, jthS) {
   //JTH
@@ -1563,21 +1564,61 @@ function checkCollision(player, character) {
 }
 
 function detectCollisions() {
-  for (let character of characters) {
-    if (checkCollision(player, character)) {
-      if (lives > 0) {
-        characters.splice(characters.indexOf(character), 1);
-        lives--;
-        updateHearts();
-        console.log("minus live");
+  if (!isJumping) {
+    for (let character of characters) {
+      // Check collision with the player (only if the player is on the ground)
+      if (checkCollision(player, character)) {
+        // Check if the character is a Grandpa or Biker
+        if (character instanceof Grandpa || character instanceof Biker) {
+          if (lives > 0) {
+            // Only remove one character, not multiple
+            characters.splice(characters.indexOf(character), 1);
+            lives--; 
+            updateHearts();
+            console.log("Lost a life!");
+          }   
+        }
+
+        // If lives are 0, go to the resultFailed state
+        if (lives === 0) {
+          state = "resultFailed";
+          console.log("Game Over!");
+        }
+        break; // Exit after the first collision to avoid multiple life losses
       }
-      if (lives === 0) {
-        state = "resultFailed";
-        console.log("Failed");
-      }
-      break;
     }
   }
+}
+
+//chatgpt startJump
+function startJump() {
+  console.log("Jumping over Bunny!");
+  isJumping = true; // Start jump
+
+  let jumpHeight = 100; // max height
+  let initialY = player.y;
+  let jumpSpeed = 5;
+
+  //move up
+  let jumpInterval = setInterval(() => {
+    if (jumpPlayer.y > initialY - jumpHeight) {
+      jumpPlayer.y -= jumpSpeed; 
+    } else {
+      clearInterval(jumpInterval);
+
+      //move down
+      let fallInterval = setInterval(() => {
+        if (jumpPlayer.y < initialY) {
+          jumpPlayer.y += jumpSpeed;
+        } else {
+          clearInterval(fallInterval);
+          jumpPlayer.y = initialY; // Reset position
+          isJumping = false; // End jump
+          console.log("Landed!");
+        }
+      }, 30);
+    } 
+  }, 30);
 }
 
 //looked up the "reset"
@@ -1596,7 +1637,7 @@ function resetGame() {
   for (let character of characters) {
     character.resetPosition();
   }
-}
+} 
 
 function draw() {
   if (state === "start") {
@@ -1611,10 +1652,10 @@ function draw() {
     }
   } else if (state === "instruction") {
     instructionScreen(100, 100);
-  } else if (state === "game") {
+  } else if (state === "game") { 
     gameScreen();
     if (gameTimer < 2000) {
-      gameTimer = gameTimer + 1;
+      gameTimer = gameTimer + 1; 
     } else {
       state = "success";
       resultSuccess();
@@ -1628,10 +1669,16 @@ function draw() {
       // Draw the character 
       character.draw();
     }
-    detectCollisions();
-
+    detectCollisions(); 
+ 
+   // Draw the player or jumpPlayer 
+   if (isJumping) {
+    jumpPlayer.update();
+    jumpPlayer.draw();
+  } else {
     player.update();
-    player.draw();
+    player.draw(); 
+  }
 
     for (let heart of hearts) {
       fill(255, 255, 255, 30);
@@ -1692,6 +1739,7 @@ function keyPressed() {
     currentLane--;
   } else if ((keyCode === RIGHT_ARROW || keyCode === 68) && currentLane < lanes.length - 1) {
     currentLane++;
+  }  else if (keyCode === UP_ARROW && !isJumping) {
+    startJump(); 
   }
-}
- 
+}  
