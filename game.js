@@ -97,8 +97,6 @@ function startScreen(x, y) {
   fill(135, 109, 91);
   ellipse(x + 25, y + 370, 50, 40);
 
-  //body
-
   //hair
   fill(80, 52, 20);
   ellipse(x + 25, y + 375, 50, 40);
@@ -1626,6 +1624,9 @@ function resetGame() {
   // Reset gameTimer and lifes
   gameTimer = 0;
   lives = 3;
+  speed = 7;
+  appearingInterval = 2500;
+
 
   // Reset hearts
   for (let heart of hearts) {
@@ -1659,6 +1660,23 @@ function draw() {
     } else {
       state = "success";
       resultSuccess();
+    }
+    //notice when arrow keys are switched + when 
+    if(gameTimer >= 1500 && gameTimer <= 1550){
+      textSize(40);
+      fill(236, 61, 61);
+      text("Switched", 220, 500);
+
+      textSize(30);
+      text("Arrow keys", 230, 455);
+    }
+    //make the characters move faster with modulo operator
+    if(gameTimer >= 1000 && gameTimer <= 1500){
+      //text("hey", 200, 500);
+      speed = 13;
+      if (frameCount % 60 === 0) {
+        appearingCharacter();
+      }
     }
 
     //make the characters move
@@ -1735,11 +1753,27 @@ function mouseClicked() {
     
 //to move the player on the lanes
 function keyPressed() {
-  if ((keyCode === LEFT_ARROW || keyCode === 65) && currentLane > 0) {
+  //switched arrow keys
+  if(gameTimer >= 1500 && gameTimer <= 2000){
+    if (keyIsPressed){
+      if((keyCode === LEFT_ARROW || keyCode === 65) && currentLane < lanes.length - 1) {
+        currentLane++;
+      } else if ((keyCode === RIGHT_ARROW || keyCode === 68) && currentLane > 0) {
+        currentLane--;
+      }
+    }
+    //default arrow keys
+  } else{ 
+    if((keyCode === LEFT_ARROW || keyCode === 65) && currentLane > 0){
     currentLane--;
-  } else if ((keyCode === RIGHT_ARROW || keyCode === 68) && currentLane < lanes.length - 1) {
+  } else if ((keyCode === RIGHT_ARROW || keyCode === 68) && currentLane < lanes.length - 1){
     currentLane++;
   }  else if (keyCode === UP_ARROW && !isJumping) {
     startJump(); 
   }
+<<<<<<< Updated upstream
 }  
+=======
+}
+}
+>>>>>>> Stashed changes
