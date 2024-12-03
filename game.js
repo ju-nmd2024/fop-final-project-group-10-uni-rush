@@ -125,6 +125,17 @@ function startScreen(x, y) {
   fill(255, 255, 255);
   textSize(20);
   text("Instructions", x + 70, y + 180);
+
+  //stars
+  fill(255, 255, 255);
+  ellipse(385, 330, 8);
+  ellipse(395, 358, 5);
+  ellipse(485, 230, 10);
+  ellipse(465, 380, 2);
+  ellipse(400, 230, 2);
+  ellipse(425, 250, 4);
+  ellipse(460, 250, 8);
+  ellipse(435, 310, 5);
 }
 
 function instructionScreen(x, y) {
@@ -1213,7 +1224,6 @@ class Heart {
     endShape(CLOSE);
   }
 }
-
 // Turn the next heart gray
 function updateHearts() {
   if (lives >= 0 && lives < hearts.length) {
@@ -1520,12 +1530,9 @@ function checkCollision(player, character) {
   let playerTop = player.y;
   let playerBottom = player.y + playerHeight;
 
-  //with the help of ChatGpt
-  // Box of Characters + Bunny
+  // Box of Characters
   let charWidth = 30 * character.GrandpaS;
-  let charHeight =
-    character instanceof Bunny? 50 * character.GrandpaS
-      : 170 * character.GrandpaS;
+  let charHeight = 170 * character.GrandpaS;
 
   let charLeft = character.GrandpaX - charWidth / 2;
   let charRight = character.GrandpaX + charWidth / 2;
@@ -1553,32 +1560,30 @@ function detectCollisions() {
             characters.splice(characters.indexOf(character), 1);
             lives--;
             updateHearts();
-            console.log("Lost a life!");
           }
         }
 
         // If lives are 0, go to the resultFailed state
         if (lives === 0) {
           state = "resultFailed";
-          console.log("Game Over!");
         }
         break; // Exit after the first collision to avoid multiple life losses
       }
     }
   }
 }
- 
-//chatgpt startJump for setTimeout - https://chatgpt.com/share/674efc6b-0b3c-8001-bd93-90813635dbd7
- function startJump() {
- if (isJumping === false) { 
-  isJumping = true; 
-  setTimeout(() => { // after 1 sec the jump will be false
-  isJumping = false; 
-}, 1000); 
-} 
-} 
 
-//looked up the "reset"
+//chatgpt startJump for setTimeout - https://chatgpt.com/share/674efc6b-0b3c-8001-bd93-90813635dbd7
+function startJump() {
+  if (isJumping === false) {
+    isJumping = true;
+    setTimeout(() => {
+      // after 1 sec the jump will be false
+      isJumping = false;
+    }, 1000);
+  }
+}
+
 function resetGame() {
   // Reset gameTimer and lifes
   gameTimer = 0;
@@ -1592,6 +1597,7 @@ function resetGame() {
   }
 
   // Reset player and characters
+  //https://p5js.org/search/?term=reset for the .reset();
   player.reset();
   for (let character of characters) {
     character.resetPosition();
@@ -1718,6 +1724,7 @@ function keyPressed() {
         currentLane--;
       }
     }
+
     //default arrow keys
   } else {
     if ((keyCode === LEFT_ARROW || keyCode === 65) && currentLane > 0) {
@@ -1727,7 +1734,7 @@ function keyPressed() {
       currentLane < lanes.length - 1
     ) {
       currentLane++;
-    } else if (keyCode === UP_ARROW  && isJumping === false) {
+    } else if (keyCode === UP_ARROW && isJumping === false) {
       startJump();
     }
   }
