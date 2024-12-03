@@ -15,33 +15,17 @@ let appearingInterval = 2500;
 let lives = 3; //lives for hearts
 let hearts = [];
 
-// with the help of chatGPT with the regions
-let stars = [];
-const regionX = 350;
-const regionY = 200;
-const regionWidth = 150;
-const regionHeight = 200;
-
-//function for the canvas and the stars to have them in the rect
+//function for the canvas
 function setup() {
   createCanvas(600, 700);
 
-  //chatgpt for time interval in which the player come down (characters only come when state = game)
+  //the following 6 lines are from chatgpt - https://chatgpt.com/share/674ee8a8-603c-8010-820f-d3ccb076d24b
+  //time interval in which the player come down (characters only come when state = game)
   setInterval(() => {
     if (state === "game") {
       appearingCharacter();
     }
   }, appearingInterval);
-
-  //stars
-  for (let i = 0; i < 100; i++) {
-    const star = {
-      x: Math.random() * regionWidth + regionX,
-      y: Math.random() * regionHeight + regionY,
-      alpha: Math.random(),
-    };
-    stars.push(star);
-  }
 
   //create instance(objects)
   characters.push(new Grandpa(400, 50, 0.8));
@@ -69,7 +53,11 @@ function setup() {
     new Rock(490, 580, 0.5),
   ];
 
-  setupHearts();
+  //hearts
+  hearts = [];
+  for (let i = 0; i < 3; i++) {
+    hearts.push(new Heart(480 + i * 40, 20, 30));
+  }
 }
 
 //Uni Rush start screen
@@ -1226,18 +1214,10 @@ class Heart {
   }
 }
 
-//position hearts
-function setupHearts() {
-  hearts = [];
-  for (let i = 0; i < 3; i++) {
-    hearts.push(new Heart(480 + i * 40, 20, 30));
-  }
-}
-
 // Turn the next heart gray
 function updateHearts() {
   if (lives >= 0 && lives < hearts.length) {
-    hearts[3 - lives - 1].isFilled = false; // Update the correct heart to gray
+    hearts[3 - lives - 1].isFilled = false;
   }
 }
 
@@ -1621,20 +1601,10 @@ function resetGame() {
 function draw() {
   if (state === "start") {
     startScreen(100, 100);
-
-    //stars
-    noStroke();
-    for (let star of stars) {
-      fill(255, 255, 255, Math.abs(Math.sin(star.alpha)) * 255);
-      ellipse(star.x, star.y, 2);
-      star.alpha += 0.02;
-    }
   } else if (state === "instruction") {
     instructionScreen(100, 100);
   } else if (state === "game") {
     gameScreen();
-
-    //set a time limit with gameTimer
     if (gameTimer < 2000) {
       gameTimer = gameTimer + 1;
     } else {
@@ -1661,6 +1631,7 @@ function draw() {
 
     //make the characters move
     for (let character of characters) {
+      // Update position
       character.GrandpaY += speed;
 
       // Draw the character
@@ -1676,7 +1647,7 @@ function draw() {
       player.update();
       player.draw();
     }
-    //draw the hearts
+
     for (let heart of hearts) {
       fill(255, 255, 255, 30);
       rect(455, 8, 135, 50, 10);
