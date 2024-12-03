@@ -88,33 +88,3 @@ function draw() {
 
   heart.draw();
 } */
-
-  
-  function detectCollisions() {
-    // Only check for collisions if the player is not jumping
-    if (!isJumping) {
-      for (let character of characters) {
-        // Check collision with the player (only if the player is on the ground)
-        if (checkCollision(player, character)) {
-          // Check if the character is a Grandpa or Biker
-          if (character instanceof Grandpa || character instanceof Biker) {
-            if (lives > 0) {
-              // Only remove one character, not multiple
-              characters.splice(characters.indexOf(character), 1);
-              lives--;
-              updateHearts();
-              console.log("Lost a life!");
-            }
-          }
-  
-          // If lives are 0, go to the resultFailed state
-          if (lives === 0) {
-            state = "resultFailed";
-            console.log("Game Over!");
-          }
-          break; // Exit after the first collision to avoid multiple life losses
-        }
-      }
-    }
-  }
-  

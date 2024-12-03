@@ -1544,8 +1544,7 @@ function checkCollision(player, character) {
   // Box of Characters + Bunny
   let charWidth = 30 * character.GrandpaS;
   let charHeight =
-    character instanceof Bunny
-      ? 50 * character.GrandpaS
+    character instanceof Bunny? 50 * character.GrandpaS
       : 170 * character.GrandpaS;
 
   let charLeft = character.GrandpaX - charWidth / 2;
@@ -1588,37 +1587,16 @@ function detectCollisions() {
     }
   }
 }
-
-//chatgpt startJump
-function startJump() {
-  console.log("Jumping over Bunny!");
-  isJumping = true; // Start jump
-
-  let jumpHeight = 100; // max height
-  let initialY = player.y;
-  let jumpSpeed = 5;
-
-  //move up
-  let jumpInterval = setInterval(() => {
-    if (jumpPlayer.y > initialY - jumpHeight) {
-      jumpPlayer.y -= jumpSpeed;
-    } else {
-      clearInterval(jumpInterval);
-
-      //move down
-      let fallInterval = setInterval(() => {
-        if (jumpPlayer.y < initialY) {
-          jumpPlayer.y += jumpSpeed;
-        } else {
-          clearInterval(fallInterval);
-          jumpPlayer.y = initialY; // Reset position
-          isJumping = false; // End jump
-          console.log("Landed!");
-        }
-      }, 30);
-    }
-  }, 30);
-}
+ 
+//chatgpt startJump for setTimeout - https://chatgpt.com/share/674efc6b-0b3c-8001-bd93-90813635dbd7
+ function startJump() {
+ if (isJumping === false) { 
+  isJumping = true; 
+  setTimeout(() => { // after 1 sec the jump will be false
+  isJumping = false; 
+}, 1000); 
+} 
+} 
 
 //looked up the "reset"
 function resetGame() {
@@ -1778,7 +1756,7 @@ function keyPressed() {
       currentLane < lanes.length - 1
     ) {
       currentLane++;
-    } else if (keyCode === UP_ARROW && !isJumping) {
+    } else if (keyCode === UP_ARROW  && isJumping === false) {
       startJump();
     }
   }
