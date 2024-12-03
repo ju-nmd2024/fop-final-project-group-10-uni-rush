@@ -6,21 +6,21 @@ let gameTimer = 0;
 //for the array for the characters (all ppl are in characters) moving down
 let characters = [];
 let speed = 7;
-let isJumping = false; 
+let isJumping = false;
 
 //player moves left and right in the lanes
-let lanes = [200, 300, 400]; 
+let lanes = [200, 300, 400];
 let currentLane = 1;
 let appearingInterval = 2500;
 let lives = 3; //lives for hearts
 let hearts = [];
 
-// with the help of chatGPT
+// with the help of chatGPT with the regions
 let stars = [];
 const regionX = 350;
-const regionY = 200; 
+const regionY = 200;
 const regionWidth = 150;
-const regionHeight = 200; 
+const regionHeight = 200;
 
 //function for the canvas and the stars to have them in the rect
 function setup() {
@@ -529,10 +529,10 @@ class Tree {
       30 * this.treeS
     );
   }
-} 
+}
 let tree1 = new Tree(34, 620, 0.6);
 let tree2 = new Tree(565, 620, 0.6);
-let tree3 = new Tree(180, 620, 0.8); 
+let tree3 = new Tree(180, 620, 0.8);
 let tree4 = new Tree(495, 620, 0.8);
 let tree5 = new Tree(250, 600, 0.4);
 let tree6 = new Tree(405, 600, 0.4);
@@ -602,12 +602,12 @@ class Bush {
       30 * this.bushS
     );
   }
-} 
+}
 let bush1 = new Bush(60, 650, 0.2);
 let bush2 = new Bush(540, 650, 0.2);
 let bush3 = new Bush(130, 680, 0.4);
 let bush4 = new Bush(540, 680, 0.4);
-let bush5 = new Bush(230, 630, 0.2); 
+let bush5 = new Bush(230, 630, 0.2);
 let bush6 = new Bush(430, 630, 0.2);
 
 class Rock {
@@ -1233,13 +1233,13 @@ function setupHearts() {
     hearts.push(new Heart(480 + i * 40, 20, 30));
   }
 }
-  
+
 // Turn the next heart gray
 function updateHearts() {
   if (lives >= 0 && lives < hearts.length) {
     hearts[3 - lives - 1].isFilled = false; // Update the correct heart to gray
   }
-} 
+}
 
 function jthSchool(jthX, jthY, jthS) {
   //JTH
@@ -1506,7 +1506,7 @@ function resultFailed() {
 
   playAgain();
   menu();
-} 
+}
 
 function appearingCharacter() {
   // Randomly select a lane (200, 300, or 400)
@@ -1532,7 +1532,7 @@ function appearingCharacter() {
 }
 
 function checkCollision(player, character) {
-  // Box of Player 
+  // Box of Player
   let playerWidth = 30 * player.s;
   let playerHeight = 150 * player.s;
   let playerLeft = player.x - playerWidth / 2;
@@ -1544,7 +1544,8 @@ function checkCollision(player, character) {
   // Box of Characters + Bunny
   let charWidth = 30 * character.GrandpaS;
   let charHeight =
-    character instanceof Bunny ? 50 * character.GrandpaS
+    character instanceof Bunny
+      ? 50 * character.GrandpaS
       : 170 * character.GrandpaS;
 
   let charLeft = character.GrandpaX - charWidth / 2;
@@ -1571,10 +1572,10 @@ function detectCollisions() {
           if (lives > 0) {
             // Only remove one character, not multiple
             characters.splice(characters.indexOf(character), 1);
-            lives--; 
+            lives--;
             updateHearts();
             console.log("Lost a life!");
-          }   
+          }
         }
 
         // If lives are 0, go to the resultFailed state
@@ -1600,7 +1601,7 @@ function startJump() {
   //move up
   let jumpInterval = setInterval(() => {
     if (jumpPlayer.y > initialY - jumpHeight) {
-      jumpPlayer.y -= jumpSpeed; 
+      jumpPlayer.y -= jumpSpeed;
     } else {
       clearInterval(jumpInterval);
 
@@ -1615,7 +1616,7 @@ function startJump() {
           console.log("Landed!");
         }
       }, 30);
-    } 
+    }
   }, 30);
 }
 
@@ -1627,7 +1628,6 @@ function resetGame() {
   speed = 7;
   appearingInterval = 2500;
 
-
   // Reset hearts
   for (let heart of hearts) {
     heart.isFilled = true;
@@ -1638,7 +1638,7 @@ function resetGame() {
   for (let character of characters) {
     character.resetPosition();
   }
-} 
+}
 
 function draw() {
   if (state === "start") {
@@ -1653,16 +1653,18 @@ function draw() {
     }
   } else if (state === "instruction") {
     instructionScreen(100, 100);
-  } else if (state === "game") { 
+  } else if (state === "game") {
     gameScreen();
+
+    //set a time limit with gameTimer
     if (gameTimer < 2000) {
-      gameTimer = gameTimer + 1; 
+      gameTimer = gameTimer + 1;
     } else {
       state = "success";
       resultSuccess();
     }
-    //notice when arrow keys are switched + when 
-    if(gameTimer >= 1500 && gameTimer <= 1550){
+    //notice when arrow keys are switched + when
+    if (gameTimer >= 1500 && gameTimer <= 1550) {
       textSize(40);
       fill(236, 61, 61);
       text("Switched", 220, 500);
@@ -1671,7 +1673,7 @@ function draw() {
       text("Arrow keys", 230, 455);
     }
     //make the characters move faster with modulo operator
-    if(gameTimer >= 1000 && gameTimer <= 1500){
+    if (gameTimer >= 1000 && gameTimer <= 1500) {
       //text("hey", 200, 500);
       speed = 13;
       if (frameCount % 60 === 0) {
@@ -1681,26 +1683,25 @@ function draw() {
 
     //make the characters move
     for (let character of characters) {
-      // Update position
       character.GrandpaY += speed;
 
-      // Draw the character 
+      // Draw the character
       character.draw();
     }
-    detectCollisions(); 
- 
-   // Draw the player or jumpPlayer 
-   if (isJumping) {
-    jumpPlayer.update();
-    jumpPlayer.draw();
-  } else {
-    player.update();
-    player.draw(); 
-  }
+    detectCollisions();
 
+    // Draw the player or jumpPlayer
+    if (isJumping) {
+      jumpPlayer.update();
+      jumpPlayer.draw();
+    } else {
+      player.update();
+      player.draw();
+    }
+    //draw the hearts
     for (let heart of hearts) {
       fill(255, 255, 255, 30);
-      rect(455, 8, 135, 50, 10); 
+      rect(455, 8, 135, 50, 10);
 
       heart.draw();
     }
@@ -1729,7 +1730,7 @@ function mouseClicked() {
   } else if (
     state === "instruction" &&
     mouseX >= 200 &&
-    mouseX <= 400 && 
+    mouseX <= 400 &&
     mouseY >= 500 &&
     mouseY < 550
   ) {
@@ -1739,41 +1740,46 @@ function mouseClicked() {
     if (mouseX >= 170 && mouseX <= 420 && mouseY >= 200 && mouseY <= 300) {
       state = "game";
       resetGame();
-    } else if ( 
+    } else if (
       mouseX >= 220 &&
       mouseX <= 370 &&
       mouseY >= 330 &&
       mouseY < 380
     ) {
       state = "start";
-    resetGame();
+      resetGame();
     }
   }
 }
-    
+
 //to move the player on the lanes
 function keyPressed() {
   //switched arrow keys
-  if(gameTimer >= 1500 && gameTimer <= 2000){
-    if (keyIsPressed){
-      if((keyCode === LEFT_ARROW || keyCode === 65) && currentLane < lanes.length - 1) {
+  if (gameTimer >= 1500 && gameTimer <= 2000) {
+    if (keyIsPressed) {
+      if (
+        (keyCode === LEFT_ARROW || keyCode === 65) &&
+        currentLane < lanes.length - 1
+      ) {
         currentLane++;
-      } else if ((keyCode === RIGHT_ARROW || keyCode === 68) && currentLane > 0) {
+      } else if (
+        (keyCode === RIGHT_ARROW || keyCode === 68) &&
+        currentLane > 0
+      ) {
         currentLane--;
       }
     }
     //default arrow keys
-  } else{ 
-    if((keyCode === LEFT_ARROW || keyCode === 65) && currentLane > 0){
-    currentLane--;
-  } else if ((keyCode === RIGHT_ARROW || keyCode === 68) && currentLane < lanes.length - 1){
-    currentLane++;
-  }  else if (keyCode === UP_ARROW && !isJumping) {
-    startJump(); 
+  } else {
+    if ((keyCode === LEFT_ARROW || keyCode === 65) && currentLane > 0) {
+      currentLane--;
+    } else if (
+      (keyCode === RIGHT_ARROW || keyCode === 68) &&
+      currentLane < lanes.length - 1
+    ) {
+      currentLane++;
+    } else if (keyCode === UP_ARROW && !isJumping) {
+      startJump();
+    }
   }
-<<<<<<< Updated upstream
-}  
-=======
 }
-}
->>>>>>> Stashed changes
