@@ -1510,7 +1510,7 @@ function appearingCharacter() {
   // Randomly choose a character type (e.g., Grandpa, Biker, or Bunny)
   let randomCharacter = random(["Grandpa", "Biker", "Bunny"]);
 
-  // Define a random position (offscreen, top of the canvas)
+  // Define a random x position (lanes)
   let appearingX = lane;
 
   // Start above the screen
@@ -1544,7 +1544,7 @@ function checkCollision(player, character) {
   let charTop = character.GrandpaY;
   let charBottom = character.GrandpaY + charHeight;
 
-  // Check if the hitboxes overlap
+  // Check if the hitboxes overlap (all of them must be fullfilled to find a collision)
   return (
     playerLeft < charRight &&
     playerRight > charLeft &&
@@ -1558,8 +1558,8 @@ function detectCollisions() {
     for (let character of characters) {
       // Check collision with the player (only if the player is on the ground)
       if (checkCollision(player, character)) {
-        // Check if the character is a Grandpa or Biker
-        if (character instanceof Grandpa || character instanceof Biker) {
+        // Check if the character is grandpa / biker or bunny - bc they are instances of grandpa
+        if (character instanceof Grandpa) {
           if (lives > 0) {
             // Only remove one character, not multiple
             characters.splice(characters.indexOf(character), 1);
@@ -1567,10 +1567,10 @@ function detectCollisions() {
             updateHearts();
           }
         }
-        if (isJumping === true) {
-          if (character instanceof Bunny) {
-          }
-        }
+        // if (isJumping === true) {
+        //   if (character instanceof Bunny) {
+        // }
+        //}
         // If lives are 0, go to the resultFailed state
         if (lives === 0) {
           state = "resultFailed";
@@ -1619,24 +1619,23 @@ function draw() {
     instructionScreen(100, 100);
   } else if (state === "game") {
     gameScreen();
+    //set a game timer for how long the game runs
     if (gameTimer < 2000) {
       gameTimer = gameTimer + 1;
     } else {
       state = "success";
       resultSuccess();
     }
-    //notice when arrow keys are switched + when
+    //notice when arrow keys are switched
     if (gameTimer >= 1500 && gameTimer <= 1550) {
       textSize(40);
       fill(236, 61, 61);
       text("Switched", 220, 500);
-
       textSize(30);
       text("Arrow keys", 230, 455);
     }
     //make the characters move faster with modulo operator
     if (gameTimer >= 1000 && gameTimer <= 1500) {
-      //text("hey", 200, 500);
       speed = 13;
       if (frameCount % 60 === 0) {
         appearingCharacter();
@@ -1665,8 +1664,6 @@ function draw() {
     for (let character of characters) {
       // Update position
       character.GrandpaY += speed;
-
-      // Draw the character
       character.draw();
     }
     detectCollisions();
@@ -1681,6 +1678,7 @@ function draw() {
     }
 
     for (let heart of hearts) {
+      //background for hearts
       fill(255, 255, 255, 30);
       rect(455, 8, 135, 50, 10);
 
