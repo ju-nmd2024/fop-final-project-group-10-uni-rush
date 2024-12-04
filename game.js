@@ -7,9 +7,9 @@ let gameTimer = 0;
 let characters = [];
 let speed = 7;
 let isJumping = false;
-
+ 
 //player moves left and right in the lanes
-let lanes = [200, 300, 400];
+let lanes = [200, 300, 400]; 
 let currentLane = 1;
 let appearingInterval = 2500;
 let lives = 3; //lives for hearts
@@ -151,7 +151,7 @@ function instructionScreen(x, y) {
   // Instructions
   textSize(15);
   text(
-    "1. Use the arrow keys (←, ↑, →) to move between the three lanes",
+    "1. Use the arrow keys (←, ↑, →) or A, W, D to move between the three lanes",
     x - 40,
     y + 120
   );
@@ -448,7 +448,7 @@ class Player {
 }
 
 let player = new Player(300, 550, 0.8);
-let jumpPlayer = new Player(300, 550, 1);
+let jumpPlayer = new Player(300, 550, 0.9);
 
 let playerFail = new Player(400, 600, 0.5);
 let playerSuccess = new Player(350, 550, 1);
@@ -1224,10 +1224,15 @@ class Heart {
     endShape(CLOSE);
   }
 }
+
 // Turn the next heart gray
 function updateHearts() {
-  if (lives >= 0 && lives < hearts.length) {
-    hearts[3 - lives - 1].isFilled = false;
+  for (let i = 0; i < hearts.length; i++) {
+    if (i < lives) {
+      hearts[i].isFilled = true;
+    } else {
+      hearts[i].isFilled = false;
+    }
   }
 }
 
@@ -1388,7 +1393,7 @@ function drawWindow(jthX, jthY, jthS) {
   line(jthX - 18 * jthS, jthY + 10 * jthS, jthX - 18 * jthS, jthY - 10 * jthS);
 
   line(jthX - 35 * jthS, jthY, jthX - 5 * jthS, jthY);
-}
+} 
 
 function cloud(jthX, jthY, jthS) {
   noStroke();
@@ -1548,8 +1553,8 @@ function checkCollision(player, character) {
   );
 }
 
-function detectCollisions() {
-  if (!isJumping) {
+ function detectCollisions() {
+  if (isJumping === false) {
     for (let character of characters) {
       // Check collision with the player (only if the player is on the ground)
       if (checkCollision(player, character)) {
@@ -1561,17 +1566,16 @@ function detectCollisions() {
             lives--;
             updateHearts();
           }
-        }
-
+        } if (isJumping === true) { if (character instanceof Bunny) {}}
         // If lives are 0, go to the resultFailed state
         if (lives === 0) {
           state = "resultFailed";
         }
         break; // Exit after the first collision to avoid multiple life losses
       }
-    }
+    } 
   }
-}
+} 
 
 //chatgpt startJump for setTimeout - https://chatgpt.com/share/674efc6b-0b3c-8001-bd93-90813635dbd7
 function startJump() {
@@ -1752,7 +1756,10 @@ function keyPressed() {
       currentLane < lanes.length - 1
     ) {
       currentLane++;
-    } else if (keyCode === UP_ARROW && isJumping === false) {
+    } else if (
+      (keyCode === UP_ARROW || keyCode === 87) &&
+      isJumping === false
+    ) {
       startJump();
     }
   }
