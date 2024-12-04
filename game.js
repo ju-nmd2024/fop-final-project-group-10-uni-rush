@@ -1634,6 +1634,24 @@ function draw() {
         appearingCharacter();
       }
     }
+    //Display the time in the top right corner
+    if (gameTimer >= 0 && gameTimer <= 500) {
+      textSize(40);
+      fill(0, 0, 0);
+      text("08:11", 475, 100);
+    } else if (gameTimer > 500 && gameTimer <= 1000) {
+      textSize(40);
+      fill(0, 0, 0);
+      text("08:12", 475, 100);
+    } else if (gameTimer > 1000 && gameTimer <= 1500) {
+      textSize(40);
+      fill(0, 0, 0);
+      text("08:13", 475, 100);
+    } else if (gameTimer > 1500 && gameTimer <= 2000) {
+      textSize(40);
+      fill(0, 0, 0);
+      text("08:14", 475, 100);
+    }
 
     //make the characters move
     for (let character of characters) {
