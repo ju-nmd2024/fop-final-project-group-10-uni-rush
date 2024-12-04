@@ -7,9 +7,9 @@ let gameTimer = 0;
 let characters = [];
 let speed = 7;
 let isJumping = false;
- 
+
 //player moves left and right in the lanes
-let lanes = [200, 300, 400]; 
+let lanes = [200, 300, 400];
 let currentLane = 1;
 let appearingInterval = 2500;
 let lives = 3; //lives for hearts
@@ -1393,7 +1393,7 @@ function drawWindow(jthX, jthY, jthS) {
   line(jthX - 18 * jthS, jthY + 10 * jthS, jthX - 18 * jthS, jthY - 10 * jthS);
 
   line(jthX - 35 * jthS, jthY, jthX - 5 * jthS, jthY);
-} 
+}
 
 function cloud(jthX, jthY, jthS) {
   noStroke();
@@ -1553,7 +1553,7 @@ function checkCollision(player, character) {
   );
 }
 
- function detectCollisions() {
+function detectCollisions() {
   if (isJumping === false) {
     for (let character of characters) {
       // Check collision with the player (only if the player is on the ground)
@@ -1566,16 +1566,20 @@ function checkCollision(player, character) {
             lives--;
             updateHearts();
           }
-        } if (isJumping === true) { if (character instanceof Bunny) {}}
+        }
+        if (isJumping === true) {
+          if (character instanceof Bunny) {
+          }
+        }
         // If lives are 0, go to the resultFailed state
         if (lives === 0) {
           state = "resultFailed";
         }
         break; // Exit after the first collision to avoid multiple life losses
       }
-    } 
+    }
   }
-} 
+}
 
 //chatgpt startJump for setTimeout - https://chatgpt.com/share/674efc6b-0b3c-8001-bd93-90813635dbd7
 function startJump() {
@@ -1731,6 +1735,11 @@ function mouseClicked() {
 
 //to move the player on the lanes
 function keyPressed() {
+  //you can't jump and move to the side at the same time
+  //the following three lines are from chatgpt: https://chatgpt.com/share/675058ee-59fc-8010-80ec-906956fb24ec
+  if (isJumping) {
+    return;
+  }
   //switched arrow keys
   if (gameTimer >= 1500 && gameTimer <= 2000) {
     if (keyIsPressed) {
@@ -1744,6 +1753,11 @@ function keyPressed() {
         currentLane > 0
       ) {
         currentLane--;
+      } else if (
+        (keyCode === DOWN_ARROW || keyCode === 40) &&
+        isJumping === false
+      ) {
+        startJump();
       }
     }
 
