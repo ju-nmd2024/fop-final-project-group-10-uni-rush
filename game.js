@@ -11,14 +11,14 @@ let isJumping = false;
 //player moves left and right in the lanes
 let lanes = [200, 300, 400];
 let currentLane = 1;
-let appearingInterval = 2500; 
+let appearingInterval = 2500;
 let lives = 3; //lives for hearts
 let hearts = [];
 
 //function for the canvas
 function setup() {
   createCanvas(600, 700);
-
+  frameRate(30);
   //the following 6 lines are from chatgpt - https://chatgpt.com/share/674ee8a8-603c-8010-820f-d3ccb076d24b Accessed: 3/12/2024
   //time interval in which the player come down (characters only come when state = game)
   setInterval(() => {
@@ -84,7 +84,7 @@ function startScreen(x, y) {
   //hair
   fill(95, 75, 53);
   ellipse(x + 25, y + 530, 50, 40);
-  
+
   //head
   fill(180, 148, 111);
   ellipse(x + 25, y + 525, 50, 40);
@@ -94,7 +94,7 @@ function startScreen(x, y) {
   //body
   fill(180, 148, 111);
   rect(x + 50, y + 520, 25, 25);
- 
+
   //arm
   rect(x + 60, y + 530, 50, 15);
   fill(95, 75, 53);
@@ -113,7 +113,7 @@ function startScreen(x, y) {
   text("08:10", x - 45, y + 375);
 
   //Uni rush head line
-  fill(190, 56,63);
+  fill(190, 56, 63);
   textSize(80);
   textStyle(BOLD);
   stroke(226, 220, 202);
@@ -659,7 +659,7 @@ class Bush {
 let bush1 = new Bush(60, 650, 0.2);
 let bush2 = new Bush(540, 650, 0.2);
 let bush3 = new Bush(130, 680, 0.4);
-let bush4 = new Bush(540, 680, 0.4); 
+let bush4 = new Bush(540, 680, 0.4);
 let bush5 = new Bush(230, 630, 0.2);
 let bush6 = new Bush(430, 630, 0.2);
 
@@ -1254,10 +1254,16 @@ class Heart {
     } else {
       fill(100); // Gray if not filled
     }
-   ellipse(this.heartX, this.heartY+ 5, 20); 
-   ellipse(this.heartX+ 15, this.heartY+ 5, 20);
-   triangle(this.heartX+8,this.heartY +30, this.heartX-9, this.heartY+10, this.heartX+24, this.heartY+10); 
-
+    ellipse(this.heartX, this.heartY + 5, 20);
+    ellipse(this.heartX + 15, this.heartY + 5, 20);
+    triangle(
+      this.heartX + 8,
+      this.heartY + 30,
+      this.heartX - 9,
+      this.heartY + 10,
+      this.heartX + 24,
+      this.heartY + 10
+    );
   }
 }
 
@@ -1538,7 +1544,7 @@ function resultFailed() {
 
   playAgain();
   menu();
-} 
+}
 
 function appearingCharacter() {
   // Randomly select a lane (200, 300, or 400)
@@ -1625,7 +1631,7 @@ function startJump() {
     isJumping = true;
     setTimeout(() => {
       // after 1 sec the jump will be false
-      isJumping = false; 
+      isJumping = false;
     }, 1000);
   }
 }
