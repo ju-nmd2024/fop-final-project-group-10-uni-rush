@@ -11,7 +11,7 @@ let isJumping = false;
 //player moves left and right in the lanes
 let lanes = [200, 300, 400];
 let currentLane = 1;
-let appearingInterval = 2500;
+let appearingInterval = 2500; 
 let lives = 3; //lives for hearts
 let hearts = [];
 
@@ -19,7 +19,7 @@ let hearts = [];
 function setup() {
   createCanvas(600, 700);
 
-  //the following 6 lines are from chatgpt - https://chatgpt.com/share/674ee8a8-603c-8010-820f-d3ccb076d24b
+  //the following 6 lines are from chatgpt - https://chatgpt.com/share/674ee8a8-603c-8010-820f-d3ccb076d24b Accessed: 3/12/2024
   //time interval in which the player come down (characters only come when state = game)
   setInterval(() => {
     if (state === "game") {
@@ -62,80 +62,133 @@ function setup() {
 
 //Uni Rush start screen
 function startScreen(x, y) {
-  background(69, 49, 90);
+  background(26, 49, 70);
   noStroke();
 
   //window
   fill(0, 0, 0);
-  rect(x + 250, y + 100, 150, 200);
+  rect(x + 300, y + 100, 150, 200, 20);
 
   //bed wood
   fill(107, 91, 64);
-  rect(x - 20, y + 345, 10, 120);
-  rect(x + 320, y + 345, 10, 120);
+  rect(x - 20, y + 480, 10, 120);
+  rect(x + 320, y + 480, 10, 120);
 
-  rect(x - 12, y + 400, 340, 30);
+  rect(x - 12, y + 550, 340, 30);
 
   //bedsheet
   fill(64, 96, 107);
-  rect(x - 8, y + 375, 65, 25, 10, 20, 0);
-  rect(x + 70, y + 375, 245, 25, 10, 20, 0);
-
-  //head
-  fill(135, 109, 91);
-  ellipse(x + 25, y + 370, 50, 40);
+  rect(x - 8, y + 525, 65, 25, 10, 20, 0);
+  rect(x + 70, y + 525, 245, 25, 10, 20, 0);
 
   //hair
-  fill(80, 52, 20);
-  ellipse(x + 25, y + 375, 50, 40);
-  ellipse(x + 60, y + 380, 50, 40);
+  fill(95, 75, 53);
+  ellipse(x + 25, y + 530, 50, 40);
+  
+  //head
+  fill(180, 148, 111);
+  ellipse(x + 25, y + 525, 50, 40);
+  fill(95, 75, 53);
+  ellipse(x + 25, y + 530, 50, 40);
+
+  //body
+  fill(180, 148, 111);
+  rect(x + 50, y + 520, 25, 25);
+ 
+  //arm
+  rect(x + 60, y + 530, 50, 15);
+  fill(95, 75, 53);
+  rect(x + 25, y + 510, 50, 40, 5);
 
   //clock
   fill(107, 91, 64);
-  rect(x - 55, y + 280, 80, 10);
+  rect(x - 55, y + 380, 80, 10);
   fill(230, 169, 124);
   strokeWeight(2);
   stroke(20, 20, 20);
-  rect(x - 50, y + 250, 70, 30, 5);
+  rect(x - 50, y + 350, 70, 30, 5);
   noStroke();
   fill(0, 0, 0);
   textSize(25);
-  text("08:10", x - 45, y + 275);
+  text("08:10", x - 45, y + 375);
 
   //Uni rush head line
-  fill(236, 61, 61);
+  fill(190, 56,63);
   textSize(80);
+  textStyle(BOLD);
+  stroke(226, 220, 202);
+  strokeWeight(6);
+
   text("UNI RUSH", x + 6, y);
-  textSize(20);
-  text("Don't miss your exam!", x + 100, y + 25);
+  strokeWeight();
+  textSize(28);
+  fill(226, 220, 202);
+  text("Don't miss your exam!", x + 55, y + 40);
 
   //button start
-  fill(234, 206, 173);
+  noStroke();
+  fill(9, 164, 85);
   rect(x + 20, y + 100, 200, 50, 10);
 
   // text
   fill(255, 255, 255);
-  textSize(50);
-  text("START", x + 45, y + 143);
+  textSize(45);
+  text("START", x + 50, y + 143);
 
   //button instructions
-  fill(234, 206, 173);
-  rect(x + 20, y + 160, 200, 25, 10);
+  fill(9, 164, 85);
+  rect(x + 29, y + 160, 180, 30, 10);
 
   fill(255, 255, 255);
-  textSize(20);
-  text("Instructions", x + 70, y + 180);
+  textSize(18);
+  text("INSTRUCTIONS", x + 53, y + 182);
 
   //stars
   fill(255, 255, 255);
-  ellipse(385, 330, 8);
-  ellipse(395, 358, 5);
-  ellipse(485, 230, 10);
-  ellipse(465, 380, 2);
-  ellipse(400, 230, 2);
-  ellipse(425, 250, 4);
-  ellipse(460, 250, 8);
-  ellipse(435, 310, 5);
+  ellipse(425, 330, 8);
+  ellipse(445, 358, 5);
+  ellipse(525, 230, 10);
+  ellipse(515, 380, 2);
+  ellipse(450, 230, 2);
+  ellipse(475, 250, 4);
+  ellipse(510, 250, 8);
+  ellipse(485, 310, 5);
+
+  push();
+  translate(460, 595);
+  scale(0.5);
+  translate(-y, -x);
+
+  //pot
+  fill(170, 100, 20);
+  noStroke();
+  rect(155, 250, 90, 60, 10);
+  fill(160, 110, 40);
+  rect(145, 240, 110, 20, 10);
+
+  //plants
+  stroke(34, 139, 34);
+  strokeWeight(5);
+  line(200, 239, 200, 160);
+
+  //leaves
+  fill(34, 139, 34);
+  noStroke();
+  ellipse(180, 225, 40, 20);
+  ellipse(220, 225, 40, 20);
+  ellipse(190, 200, 30, 15);
+  ellipse(210, 200, 30, 15);
+
+  //flower
+  fill(170, 0, 0);
+  ellipse(210, 150, 20);
+  ellipse(190, 150, 20);
+  ellipse(190, 170, 20);
+  ellipse(210, 170, 20);
+
+  fill(255, 255, 0);
+  ellipse(200, 160, 10, 10);
+  pop();
 }
 
 function instructionScreen(x, y) {
@@ -148,27 +201,28 @@ function instructionScreen(x, y) {
   textSize(20);
   text("Read CAREFULLY! Otherwise you will fail your course.", x - 50, y + 30);
 
+  //Chatgpt created the text for the instructions: https://chatgpt.com/share/674ee8a8-603c-8010-820f-d3ccb076d24b Accessed: 3/12/2024
   // Instructions
   textSize(15);
   text(
     "1. Use the arrow keys (←, ↑, →) or A, W, D to move between the three lanes",
-    x - 40,
+    x - 50,
     y + 120
   );
   text("and dodge obstacles.", x - 20, y + 140);
 
-  text("2. If you hit an obstacle, you will loose one life", x - 40, y + 170);
+  text("2. If you hit an obstacle, you will loose one life", x - 50, y + 170);
 
   text(
     "3. If you lose all your lives, you fail to reach university on time",
-    x - 40,
+    x - 50,
     y + 200
   );
   text("and lose the game", x - 20, y + 220);
 
   text(
     "4. Reach university with at least 1 life left to win the game!",
-    x - 40,
+    x - 50,
     y + 250
   );
 
@@ -605,7 +659,7 @@ class Bush {
 let bush1 = new Bush(60, 650, 0.2);
 let bush2 = new Bush(540, 650, 0.2);
 let bush3 = new Bush(130, 680, 0.4);
-let bush4 = new Bush(540, 680, 0.4);
+let bush4 = new Bush(540, 680, 0.4); 
 let bush5 = new Bush(230, 630, 0.2);
 let bush6 = new Bush(430, 630, 0.2);
 
@@ -1200,31 +1254,14 @@ class Heart {
     } else {
       fill(100); // Gray if not filled
     }
+   ellipse(this.heartX, this.heartY+ 5, 20); 
+   ellipse(this.heartX+ 15, this.heartY+ 5, 20);
+   triangle(this.heartX+8,this.heartY +30, this.heartX-9, this.heartY+10, this.heartX+24, this.heartY+10); 
 
-    beginShape();
-    vertex(this.heartX, this.heartY);
-    bezierVertex(
-      this.heartX - this.heartSize / 2,
-      this.heartY - this.heartSize / 2,
-      this.heartX - this.heartSize,
-      this.heartY + this.heartSize / 8,
-      this.heartX,
-      this.heartY + this.heartSize
-    );
-
-    // Top right curve
-    bezierVertex(
-      this.heartX + this.heartSize,
-      this.heartY + this.heartSize / 8,
-      this.heartX + this.heartSize / 2,
-      this.heartY - this.heartSize / 2,
-      this.heartX,
-      this.heartY
-    );
-    endShape(CLOSE);
   }
 }
 
+//the following 6 lines are from Chatgpt:https://chatgpt.com/share/674ee3dc-405c-8001-a22e-9f163ac30220. Accessed: 3/12/2024
 // Turn the next heart gray
 function updateHearts() {
   for (let i = 0; i < hearts.length; i++) {
@@ -1466,12 +1503,12 @@ function resultFailed() {
   rect(0, 0, 600, 700);
 
   cloud(500, 150, 0.5);
-  cloud(400, 200, 1);
-  cloud(280, 70, 0.7);
+  cloud(450, 160, 1);
+  cloud(170, 50, 0.7);
   cloud(40, 0, 0.5);
-  cloud(100, 180, 0.7);
+  cloud(140, 180, 0.7);
   cloud(300, 30, 0.2);
-  cloud(480, 0, 0.6);
+  cloud(430, 0, 0.6);
 
   fill(205, 50, 15);
   textStyle(BOLD);
@@ -1501,7 +1538,7 @@ function resultFailed() {
 
   playAgain();
   menu();
-}
+} 
 
 function appearingCharacter() {
   // Randomly select a lane (200, 300, or 400)
@@ -1536,7 +1573,6 @@ function checkCollision(player, character) {
   let playerBottom = player.y + playerHeight;
 
   // Box of Characters
-
   let charWidth = 30 * character.GrandpaS;
   let charHeight;
   if (character instanceof Bunny) {
@@ -1573,10 +1609,6 @@ function detectCollisions() {
             updateHearts();
           }
         }
-        // if (isJumping === true) {
-        //   if (character instanceof Bunny) {
-        // }
-        //}
         // If lives are 0, go to the resultFailed state
         if (lives === 0) {
           state = "resultFailed";
@@ -1587,13 +1619,13 @@ function detectCollisions() {
   }
 }
 
-//chatgpt startJump for setTimeout - https://chatgpt.com/share/674efc6b-0b3c-8001-bd93-90813635dbd7
+//chatgpt startJump for setTimeout - https://chatgpt.com/share/674efc6b-0b3c-8001-bd93-90813635dbd7 Accessed: 4/12/2024
 function startJump() {
   if (isJumping === false) {
     isJumping = true;
     setTimeout(() => {
       // after 1 sec the jump will be false
-      isJumping = false;
+      isJumping = false; 
     }, 1000);
   }
 }
@@ -1611,7 +1643,7 @@ function resetGame() {
   }
 
   // Reset player and characters
-  //https://p5js.org/search/?term=reset for the .reset();
+  //Inspiration from https://p5js.org/search/?term=reset for the .reset(); Accessed: 1/12/2024
   player.reset();
   for (let character of characters) {
     character.resetPosition();
@@ -1662,7 +1694,7 @@ function draw() {
       text("08:13", 475, 100);
     } else if (gameTimer > 1500 && gameTimer <= 2000) {
       textSize(40);
-      fill(0, 0, 0);
+      fill(255, 0, 0);
       text("08:14", 475, 100);
     }
 
@@ -1686,7 +1718,7 @@ function draw() {
     for (let heart of hearts) {
       //background for hearts
       fill(255, 255, 255, 30);
-      rect(455, 8, 135, 50, 10);
+      rect(460, 8, 135, 50, 10);
 
       heart.draw();
     }
@@ -1702,13 +1734,13 @@ function draw() {
 
 function mouseClicked() {
   if (state === "start") {
-    if (mouseX >= 120 && mouseX <= 319 && mouseY >= 200 && mouseY <= 250) {
+    if (mouseX >= 120 && mouseX <= 320 && mouseY >= 200 && mouseY <= 250) {
       state = "game";
     } else if (
-      mouseX >= 120 &&
-      mouseX <= 320 &&
+      mouseX >= 129 &&
+      mouseX <= 309 &&
       mouseY >= 260 &&
-      mouseY < 285
+      mouseY < 290
     ) {
       state = "instruction";
     }
@@ -1740,7 +1772,7 @@ function mouseClicked() {
 //to move the player on the lanes
 function keyPressed() {
   //you can't jump and move to the side at the same time
-  //the following three lines are from chatgpt: https://chatgpt.com/share/675058ee-59fc-8010-80ec-906956fb24ec
+  //the following three lines are from chatgpt: https://chatgpt.com/share/675058ee-59fc-8010-80ec-906956fb24ec Accessed: 4/12/2024
   if (isJumping) {
     return;
   }
