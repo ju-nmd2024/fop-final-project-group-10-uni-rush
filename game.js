@@ -1536,8 +1536,14 @@ function checkCollision(player, character) {
   let playerBottom = player.y + playerHeight;
 
   // Box of Characters
+
   let charWidth = 30 * character.GrandpaS;
-  let charHeight = 170 * character.GrandpaS;
+  let charHeight;
+  if (character instanceof Bunny) {
+    charHeight = 50 * character.GrandpaS;
+  } else {
+    charHeight = 170 * character.GrandpaS;
+  }
 
   let charLeft = character.GrandpaX - charWidth / 2;
   let charRight = character.GrandpaX + charWidth / 2;
